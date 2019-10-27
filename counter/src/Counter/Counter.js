@@ -34,8 +34,6 @@ class Counter extends React.Component {
             <div className="jumbotron">
                 <h1>Hello {this.props.name}</h1>
                 {button}
-
-                
                 <h4>You clicked me {this.state.count} times</h4>
             </div>
         )

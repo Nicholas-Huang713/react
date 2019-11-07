@@ -7,6 +7,7 @@ import Language from './Language';
 const App = (props) => {
   return (
     <div className="container text-center">
+      <h3>Vote for your Favorite Javascript Language!</h3>
      <div>
        <Language name="React" />
        <Language name="Vue" />

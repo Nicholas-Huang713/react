@@ -5,8 +5,8 @@ class TriviaCard extends React.Component {
         super(props);
 
         this.state = {
-            title: "Basketball",
-            question:  "Who is the best basketball player ever?",
+            title: "Baseball",
+            question:  "What player holds the career record for most stolen bases?",
             hint:  "",
             hasClicked: false
 
@@ -17,15 +17,15 @@ class TriviaCard extends React.Component {
         this.setState ({
             title : "",
             question: "",
-            hint: "He is a Laker",
+            hint: "This player stole a single season record of 130 bases in 1983 as a member of the Oakland Athetics",
             hasClicked: true
         });
     }
 
     frontFlip() {
         this.setState({
-            title: "Basketball",
-            question:  "Who is the best basketball player ever?",
+            title: "Baseball",
+            question:  "What player holds the career record for most stolen bases?",
             hint:  "",
             hasClicked: false
         });
@@ -36,16 +36,16 @@ class TriviaCard extends React.Component {
         let img;
         
         if(this.state.hasClicked) {
-            img = <img onClick={() => this.frontFlip() } src="https://media.newyorker.com/photos/59097511019dfc3494ea2a0f/master/w_727,c_limit/Phillips-AnAwkwardFarewelltoKobeBryant.jpg" alt="Kobe Pic" /> ;
+            img = <img onClick={() => this.frontFlip() } src={this.props.info.topic.imageUrl} alt="Kobe Pic" /> ;
             
         }
         else{
-            img =  <img onClick={() => this.backFlip() } src="https://media.newyorker.com/photos/59097511019dfc3494ea2a0f/master/w_727,c_limit/Phillips-AnAwkwardFarewelltoKobeBryant.jpg" alt="Kobe Pic" /> ;
+            img =  <img onClick={() => this.backFlip() } src={this.props.info.topic.imageUrl} alt="Kobe Pic" /> ;
             
         }
        
         return (
-            <div className="border border-primary"> 
+            <div className="border border-primary container text-center"> 
                 {img}
                 <h4>{this.state.title}</h4>   
                 <p>{this.state.question}</p>
@@ -53,7 +53,6 @@ class TriviaCard extends React.Component {
             </div>
         )
     }
-
 }
 
 export default TriviaCard;

@@ -17,7 +17,7 @@ class Language extends React.Component {
 
     render(){
         return (
-            <div>
+            <div className="container text-center">
                 {this.state.count} {this.props.name} <button onClick={() => this.updateCount()}> + </button>
             </div>
         )

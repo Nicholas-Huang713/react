@@ -14,21 +14,63 @@ class TriviaRound extends React.Component {
         }
     }
 
-    handleClick () {
+    handleRightClick () {
+        clearInterval(this.myInterval);
+        if(this.state.count <= 10){
+            this.setState({
+                message: "Correct! Score +5",
+                hasClicked: true
+            });
+            this.setState(prevState => ({
+                score: prevState.score + 5
+            }));
+        } else if(this.state.count <= 20) {
+            this.setState({
+                message: "Correct! Score +3",
+                hasClicked: true
+            });
+            this.setState(prevState => ({
+                score: prevState.score + 3
+            }));
+        } else {
+            this.setState({
+                message: "Correct! Score +1",
+                hasClicked: true
+            });
+            this.setState(prevState => ({
+                score: prevState.score + 1
+            }));
+        }
+        // if(TriviaCard.state.hasClicked){
+        //     this.setState(prevState => ({
+        //         score: prevState.score - 1
+        //     }));
+        // }
+        
+        
+    }
+
+    handleWrongClick () {
         this.setState({
-            hasClicked: true
+            message: "Wrong"
         });
+        clearInterval(this.myInterval);
     }
 
     render() {
         let buttons = this.props.question.answers.map((question)=> {
-            return <button key={question.isCorrect} onClick={() => this.handleClick() }> {question.value} </button>
+            if(question.isCorrect){
+                return <button key={question.isCorrect} onClick={() => this.handleRightClick() }> {question.value} </button>
+            } else {
+                return <button key={question.isCorrect} onClick={() => this.handleWrongClick() }> {question.value} </button>
+            }
+            
         })
-        let message;
-
+        // let message;
+        let newButton;
         if(this.state.hasClicked){
             buttons = null;
-            message = "Correct"
+            newButton = <button>Next Question</button>
         }
 
         let card = this.props.question;
@@ -37,10 +79,11 @@ class TriviaRound extends React.Component {
             <div className="container">
             <h1>{this.state.count}</h1>
             <div className="text-center"> 
+                <h1>Score: {this.state.score}</h1>
                 <TriviaCard info={card}/>
-                <h2>{message}</h2>
+                <h2>{this.state.message}</h2>
                 {buttons}
-                {this.state.name}
+                {newButton}
             </div>
                 
             </div>

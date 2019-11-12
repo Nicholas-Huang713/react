@@ -21,7 +21,7 @@ class TriviaCard extends React.Component {
             hasClicked: true
         });
     }
-
+ 
     frontFlip() {
         this.setState({
             title: "Basketball",

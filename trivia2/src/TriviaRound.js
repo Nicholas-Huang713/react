@@ -1,5 +1,4 @@
 import React from 'react';
-
 import TriviaCard from './TriviaCard';
 
 class TriviaRound extends React.Component {
@@ -11,58 +10,71 @@ class TriviaRound extends React.Component {
             score: 0,
             message: "",
             hasClicked: false,
+            hasFlipped: false
         }
+        this.handleRightClick = this.handleRightClick.bind(this);
+        this.handleFlip = this.handleFlip.bind(this);
     }
 
-    handleRightClick () {
+    handleRightClick() {
         clearInterval(this.myInterval);
         if(this.state.count <= 10){
+            const newMessage = `Correct! Score +${this.state.score}`;
             this.setState({
-                message: "Correct! Score +5",
+                message: newMessage,
                 hasClicked: true
             });
             this.setState(prevState => ({
                 score: prevState.score + 5
             }));
         } else if(this.state.count <= 20) {
+            const newMessage = `Correct! Score +${this.state.score}`;
             this.setState({
-                message: "Correct! Score +3",
+                message: newMessage,
                 hasClicked: true
             });
             this.setState(prevState => ({
                 score: prevState.score + 3
             }));
         } else {
+            const newMessage = `Correct! Score +${this.state.score}`;
             this.setState({
-                message: "Correct! Score +1",
+                message: newMessage, 
                 hasClicked: true
             });
             this.setState(prevState => ({
                 score: prevState.score + 1
             }));
-        }
-        // if(TriviaCard.state.hasClicked){
-        //     this.setState(prevState => ({
-        //         score: prevState.score - 1
-        //     }));
-        // }
-        
+        }  
+        if(this.state.hasFlipped){
+            this.setState(prevState => ({
+                score: prevState.score - 1
+            }));
+        }   
         
     }
 
-    handleWrongClick () {
+    handleWrongClick() {
         this.setState({
             message: "Wrong"
         });
-        clearInterval(this.myInterval);
+        // clearInterval(this.myInterval);
+    }
+
+    handleFlip() {
+        console.log("Flipped!");
+        this.setState({
+            hasFlipped: true
+        });
+        
     }
 
     render() {
         let buttons = this.props.question.answers.map((question)=> {
             if(question.isCorrect){
-                return <button key={question.isCorrect} onClick={() => this.handleRightClick() }> {question.value} </button>
+                return <button key={question.answerId} onClick={() => this.handleRightClick() }> {question.value} </button>
             } else {
-                return <button key={question.isCorrect} onClick={() => this.handleWrongClick() }> {question.value} </button>
+                return <button key={question.answerId} onClick={() => this.handleWrongClick() }> {question.value} </button>
             }
             
         })
@@ -76,11 +88,11 @@ class TriviaRound extends React.Component {
         let card = this.props.question;
 
         return (
-            <div className="container">
-            <h1>{this.state.count}</h1>
+            <div className="jumbotron">
+            <h2>Time: {this.state.count}</h2>
             <div className="text-center"> 
                 <h1>Score: {this.state.score}</h1>
-                <TriviaCard info={card}/>
+                <TriviaCard info={card} handleFlip= {this.handleFlip} />
                 <h2>{this.state.message}</h2>
                 {buttons}
                 {newButton}

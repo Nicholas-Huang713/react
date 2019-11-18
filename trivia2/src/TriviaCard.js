@@ -8,8 +8,8 @@ class TriviaCard extends React.Component {
             title: "Baseball",
             question:  "What player holds the career record for most stolen bases?",
             hint:  "",
-            hasClicked: false
-
+            hasClicked: false,
+            flips: 0
         }
     }
 
@@ -18,8 +18,10 @@ class TriviaCard extends React.Component {
             title : "",
             question: "",
             hint: "This player stole a single season record of 130 bases in 1983 as a member of the Oakland Athetics",
-            hasClicked: true
+            hasClicked: true,
+            flips: this.state.flips + 1
         });
+        this.props.handleFlip();
     }
 
     frontFlip() {
@@ -30,9 +32,9 @@ class TriviaCard extends React.Component {
             hasClicked: false
         });
     }
-
+  
     render() {
-        const {imgPath, title, question, hint} = this.props;
+        // const {imgPath, title, question, hint} = this.props;
         let img;
         
         if(this.state.hasClicked) {

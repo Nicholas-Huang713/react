@@ -6,57 +6,97 @@ class WorkForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            
+            personalList: [],
+            workList: [],
             project: "",
             description: "",
             minutes: 0,
-            hasSubmitted: false
-            // project: "Personal",
-            // description: "",
-            // minutes: 0,
-            // hasSubmitted: false
+            minutesVal: "",
+            descriptionVal: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this); 
         this.handleChange = this.handleChange.bind(this);
     }
  
     handleChange = (event) => {
-        const name = event.target.project;
+        const name = event.target.name;
         const value = event.target.value;
-        // let data = this.state.allData;
-        // data.push({[name] : value});
         this.setState({ 
             [name] : value
         })
     }
 
     handleSubmit(event) {
+        if(!this.canBeSubmitted()) {
+            event.preventDefault();
+            return;
+        }
         event.preventDefault();
-        alert(`${this.state.allData.project} log submitted`);
-        const newData = {
-            project: event.target.project,
-            description: event.target.description,
-            minutes: event.target.minutes,
-            // hasSubmitted: true
-        };
-        const myData = this.state.allData;
-        myData.push(newData);
         this.setState({
-            allData: [
-                {
-                    project: "Personal",
-                    description: "",
-                    minutes: 0
-                }
-            ],
-            hasSubmitted: true
+            minutesVal: "",
+            descriptionVal: ""
         })
+        
+        alert(`${this.state.project} log submitted`);
+        const newData = {
+            project: this.state.project,
+            description: this.state.description,
+            minutes: parseInt(this.state.minutes)
+        };
+        const personal = this.state.personalList;
+        const work = this.state.workList;
+        if(this.state.project === "Personal") {
+            personal.push(newData);
+            this.setState({
+                personalList : personal
+            })
+        } else {
+            work.push(newData);
+            this.setState({
+                workList: work
+            })
+        }
+        this.setState({
+            project: "Personal",
+            description: "",
+            minutes: 0
+        })
+       
+    }
+    canBeSubmitted() {
+        const {description, minutes} = this.state;
+        if(description.length < 5) {
+            this.setState({
+                descriptionVal: "Description must be longer than 5 characters" 
+            })
+        }
+        if(description === "") {
+            this.setState({
+                descriptionVal: "Description must not be left blank"
+            })
+        }
+        if(minutes === "") {
+            this.setState({
+                minutesVal: "Time must not be left blank"
+            })
+        }
+        if(minutes === 0) {
+            this.setState({
+                minutesVal : "Time must be more than 0"
+            })
+        }
+        if(minutes > 240) {
+            this.setState({
+                minutesVal: "Time must not be more than 240 minutes"
+            })
+        }
+        return description.length > 5 && description !== null && minutes > 0 && minutes < 240 && minutes !== null; 
     }
 
     componentDidMount() {
         this.setState({
             project: "Personal",
-            description: "Your description here...",
+            description: "",
             minutes: 0
         })
     }
@@ -65,9 +105,9 @@ class WorkForm extends React.Component {
         // const project = this.state.project; 
         // const description = this.state.description;
         // const minutes = this.state.minutes;
-
-        const logData = this.state.allData;
-
+        const personalList = this.state.personalList;
+        const workList = this.state.workList;
+        const logData = { p: personalList , w : workList}
             // project: project,
             // description: description,
             // minutes: minutes
@@ -82,27 +122,29 @@ class WorkForm extends React.Component {
                         <label>Project:</label>
                         <select className="form-control" 
                                 name="project"
-                                value={this.state.allData.project}
+                                value={this.state.project}
                                 onChange={this.handleChange}>
-                            <option value="personal">Personal</option>
-                            <option value="work">Work</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Description:</label>
+                        <label>Description: </label>
+                       <p className="text-danger">{this.state.descriptionVal}</p> 
                         <textarea className="form-control" 
                                    name="description"
-                                   value={this.state.allData.description}
+                                   value={this.state.description}
                                    onChange={this.handleChange} />
+                        
                         
                     </div>
                     <div className="form-group">
                         <label> Minutes:</label>
-                        <br></br>
+                        <p className="text-danger">{this.state.minutesVal}</p>
                         <input type="number" 
                                name="minutes"
-                               value={this.state.allData.minutes}
-                               onChange={this.handleChange} />
+                               value={this.state.minutes}
+                                onChange={this.handleChange} />
                     </div>
                     <button className="btn btn-outline-dark">Add</button>
                 </form>

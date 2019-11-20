@@ -2,68 +2,44 @@ import React from 'react';
 
 
 class WorkLog extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            personalList : [],
-            workList : [],
-            personalTime: 0,
-            workTime: 0
-        }
-        // this.handlePersonal = this.handlePersonal.bind(this);
-        // this.handleWork = this.handleWork.bind(this); 
-    }
 
-    // handlePersonal() {
-    //     const personal = this.state.personalList;
-    //     personal.push(this.props.data);
-    //     this.setState({
-    //         personalList: personal,
-    //         personalTime: personal + this.props.data.minutes
-    //     }) 
-    // }
-
-
-    // handleWork() {
-    //     const work = this.state.workList;
-    //     work.push(this.props.data);
-    //     this.setState({
-    //         workList: work,
-    //         workTime: work + this.props.data.minutes
-    //     }) 
-    // }
+   
     render (){
-        let personalList = [];
-        let workList = [];
-        let personalTime = 0;
-        let workTime = 0;
+        function timeConvert(num) {
+            let hours = Math.floor(num/60);
+            let minutes = num % 60;
+            return hours + ":" + minutes;
+        }
         const myData = this.props.data;
-        for(const [index, value] of myData.entries()) {
-            if(value.hasSubmitted) {
-                if(value.project === "Personal"){
-                    personalList.push(value);
-                    personalTime += value.minutes
-                } else {
-                    workList.push(value);
-                    workTime += value.minutes
-                }
-            }
+        const personalList = myData.p;
+        const workList = myData.w;
+        
+        let personalTime = Number("0");
+        let workTime = Number("0");
+    
+
+        for(const [index, value] of personalList.entries()) {
+            personalTime += parseInt(value.minutes);
             
         }
-           
+        console.log(personalTime);
+        for(const [index, value] of workList.entries()) {
+            workTime += parseInt(value.minutes);
+            console.log(workTime);
+        }
+
+        const personalListFormat = personalList.map((value, index) => {
+            // value.minutes = timeConvert(value.minutes)
+            return <li key={index}>{value.minutes} minutes - <span className="text-danger">{value.description}</span></li>
+        })
+        const workListFormat = workList.map((value, index) => {
+            // value.minutes = timeConvert(value.minutes)
+            return <li key={index}>{value.minutes} minutes - <span className="text-danger">{value.description}</span></li>
+        })
+        let personalTimeFormat = timeConvert(personalTime);
+        let workTimeFormat = timeConvert(workTime);
+
         
-        // if()
-        // if ( data.project === 'Personal') {
-        //     // this.handlePersonal();
-        //     personalList.push(data);
-        //     personalTime += data.minutes;
-        // } else {
-        //     // this.handleWork();
-        //     workList.push(data);
-        //     workTime += data.minutes;
-        // }
-        
-            
         
         return (
             <div className="container">
@@ -71,23 +47,19 @@ class WorkLog extends React.Component {
                     <div className="col border border-dark rounded">
                         <div className="row">
                             <div className="col"><h3>Personal</h3></div>
-                            <div className="col text-right"><h4>{personalTime}</h4></div>
+                            <div className="col text-right"><h4>{personalTimeFormat}</h4></div>
                         </div>
                         <ul>
-                            {personalList.map((value, index) => {
-                                return <li key={index}>{value.minutes} <span className="text-danger">{value.description}</span></li>
-                            })}
+                            {personalListFormat}
                         </ul>
                     </div>
                     <div className="col border border-dark rounded">
                         <div className="row">
                             <div className="col"><h3>Work</h3></div>
-                            <div className="col text-right"><h4>{workTime}</h4></div>
+                            <div className="col text-right"><h4>{workTimeFormat}</h4></div>
                         </div>
                         <ul>
-                            {workList.map((value, index) => {
-                                return <li key={index}>{value.minutes} <span className="text-danger">{value.description}</span></li>
-                            })}
+                            {workListFormat}
                         </ul>
                     </div>
                 </div>

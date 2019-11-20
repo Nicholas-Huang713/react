@@ -18,39 +18,48 @@ class TriviaRound extends React.Component {
 
     handleRightClick() {
         clearInterval(this.myInterval);
-        if(this.state.count <= 10){
-            const newMessage = `Correct! Score +${this.state.score}`;
-            this.setState({
-                message: newMessage,
-                hasClicked: true
-            });
-            this.setState(prevState => ({
-                score: prevState.score + 5
-            }));
-        } else if(this.state.count <= 20) {
-            const newMessage = `Correct! Score +${this.state.score}`;
-            this.setState({
-                message: newMessage,
-                hasClicked: true
-            });
-            this.setState(prevState => ({
-                score: prevState.score + 3
-            }));
-        } else {
-            const newMessage = `Correct! Score +${this.state.score}`;
-            this.setState({
-                message: newMessage, 
-                hasClicked: true
-            });
-            this.setState(prevState => ({
-                score: prevState.score + 1
-            }));
-        }  
-        if(this.state.hasFlipped){
+         if(this.state.hasFlipped){
             this.setState(prevState => ({
                 score: prevState.score - 1
             }));
-        }   
+        }  
+        if(this.state.count <= 10){
+            this.setState(prevState => ({
+                score: prevState.score + 5,
+                message: `Correct! Score +${this.state.score}`,
+                hasClicked: true
+            }));
+            
+            
+        } else if(this.state.count <= 20) {
+            // const newMessage = `Correct! Score +${this.state.score}`;
+            // this.setState({
+            //     message: newMessage,
+            //     hasClicked: true
+            // });
+            this.setState(prevState => ({
+                score: prevState.score + 3,
+                message: `Correct! Score +${this.state.score}`,
+                hasClicked: true
+            }));
+        } else {
+            // const newMessage = `Correct! Score +${this.state.score}`;
+            // this.setState({
+            //     message: newMessage, 
+            //     hasClicked: true
+            // });
+            this.setState(prevState => ({
+                score: prevState.score + 1,
+                message: `Correct! Score +${this.state.score}`,
+                hasClicked: true
+            }));
+        }  
+        
+        this.setState({
+            message: `Correct! Score +${this.state.score}`,
+            hasClicked: true
+        });
+        
         
     }
 
@@ -89,15 +98,14 @@ class TriviaRound extends React.Component {
 
         return (
             <div className="jumbotron">
-            <h2>Time: {this.state.count}</h2>
-            <div className="text-center"> 
-                <h1>Score: {this.state.score}</h1>
-                <TriviaCard info={card} handleFlip= {this.handleFlip} />
-                <h2>{this.state.message}</h2>
-                {buttons}
-                {newButton}
-            </div>
-                
+                <h2>Time: {this.state.count}</h2>
+                <div className="text-center"> 
+                    <h1>Score: {this.state.score}</h1>
+                    <TriviaCard info={card} handleFlip= {this.handleFlip} />
+                    <h2>{this.state.message}</h2>
+                    {buttons}
+                    {newButton}
+                </div>  
             </div>
             
         )

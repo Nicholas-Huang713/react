@@ -17,13 +17,14 @@ class App extends React.Component {
     e.preventDefault();
     const movie = e.target.elements.movieName.value;
     console.log(movie);
-    axios.get(`http://www.omdbapi.com/?apikey=[Api_key]&t=${movie}`)
+    axios.get(`http://www.omdbapi.com/?apikey=cece43df&t=${movie}`)
     .then(res => {
       this.setState({
         movieData: res.data
       });
+      console.log(this.state.movieData);
     })
-    console.log(this.state.movieData);
+    
   }
 
   render(){
@@ -35,6 +36,7 @@ class App extends React.Component {
         </header>
         <Form getMovie={this.getMovie}/>
         <div className="container text-center">
+          <img src={this.state.movieData.Poster} />
           <h3>Year: {this.state.movieData.Year}</h3>
           <h3>Director: {this.state.movieData.Director}</h3>
           <p>Plot: {this.state.movieData.Plot} </p>

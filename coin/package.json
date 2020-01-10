@@ -1,8 +1,9 @@
 {
-  "name": "music-app",
+  "name": "coin",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router": "^5.1.2",

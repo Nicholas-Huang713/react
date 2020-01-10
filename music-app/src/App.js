@@ -1,17 +1,29 @@
 import React from 'react';
 import './App.css';
+import Start from './components/Start';
 
-function App() {
-  return (
-    <div className="App">
-      <div className="container">
-        <div className="page-header">
-          <h1>Hip Hop 101</h1>
-          <p>Listen to the sound of Hip Hop's greatest hits throughout the years.</p>
-        </div>
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      currentSong : []
+    }
+  }
+
+  render() {
+    return (
+      <div className="App"> 
+        <div className="container">
+          <div className="page-header border-dark border-bottom">
+            <h1>Hip Hop History</h1>
+            <p>Listen to the evolution of Hip Hop's sound.</p>
+          </div>
+          <Start />
+        </div>  
       </div>
-    </div>
-  );
+    );
+  }
+  
 }
 
 export default App;

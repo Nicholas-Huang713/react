@@ -8,9 +8,6 @@ class Buy extends React.Component {
         }
     }
 
-    handleSubmit (event) {
-        this.props.match.buy.updateBuy();
-    }
 
     handleChange = (event) => {
         this.setState({
@@ -19,14 +16,16 @@ class Buy extends React.Component {
     }
 
      render() {
-         const {value, coins} = this.props.match.params;
+         const {value, coins} = this.props;
          return (
              <div>
                 <h1>Buy MyCoins</h1>
                 <p>Current MyCoin Value: ${value}.00</p>
                 <p>Number of MyCoins Owned: {coins} </p>
-                <form onSubmit={this.handleSubmit}>
+                
+                <form onSubmit={this.props.updateBuy}>
                     <input type="number" 
+                            name="amountBuy"
                             value={this.state.amount}
                             onChange={this.handleChange} />
                     <button>Buy</button>

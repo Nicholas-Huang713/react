@@ -2,7 +2,7 @@ import React from 'react';
 
 class Sell extends React.Component {
      render() {
-        const {value, coins} = this.props.match.params;
+        const {value, coins} = this.props;
          return (
              <div>
                 <h1>Sell MyCoins</h1>

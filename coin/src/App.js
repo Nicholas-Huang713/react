@@ -20,15 +20,30 @@ class App extends React.Component {
       value: 0,
       coins: 0,
       ledger: [],
-      service: []
+      service: [],
+      mineMessage: ""
     }
+    this.updateMine = this.updateMine.bind(this);
   }
 
-  updateMine() {
-    this.setState(prevState => ({
-      value: prevState.value + 1,
-      coins: prevState.coins + 1
-    }))
+  updateMine =(e) => {
+    e.preventDefault();
+    const answer = e.target.answerMine.value;
+    console.log(answer);
+    if(answer === "christmas"){
+      this.setState(prevState => ({
+        value: prevState.value + 1,
+        coins: prevState.coins + 1,
+      }))
+      this.setState({
+        mineMessage: "Correct!"
+      })
+    }
+    else{
+      this.setState({
+        mineMessage: "Wrong!"
+      })
+    }
   }
 
   updateBuy() {
@@ -46,17 +61,17 @@ class App extends React.Component {
             <h1>Coin App</h1>
             <div className="btn-group btn-group-lg" role="group" aria-label="Button Navigation">
                 <Link to="/"><button className="btn btn-outline-dark">Home</button></Link>
-                <Link to={`/mine/${this.updateMine}`}><button className="btn btn-outline-dark">Mine Coins</button></Link>
-                <Link to={`/buy/${this.state.value}/${this.state.coins}/${this.updateBuy}`}><button className="btn btn-outline-dark">Buy Coins</button></Link>
-                <Link to={`/sell/${this.state.value}/${this.state.coins}`}><button className="btn btn-outline-dark">Sell Coins</button></Link>
-                <Link to={`/browse/${this.state.ledger}`}><button className="btn btn-outline-dark">Browse Ledger</button></Link>
+                <Link to="/mine"><button className="btn btn-outline-dark">Mine Coins</button></Link>
+                <Link to="/buy"><button className="btn btn-outline-dark">Buy Coins</button></Link>
+                <Link to="/sell"><button className="btn btn-outline-dark">Sell Coins</button></Link>
+                <Link to="/browse"><button className="btn btn-outline-dark">Browse Ledger</button></Link>
             </div>
           </div>
             <Route exact path="/" component={Home} />
-            <Route path="/mine" render={props => <Mine updateMine = {this.updateMine} />} />                    
-            <Route path="/buy/:value/:coins/:update" component={Buy} render={props => <Buy updateBuy = {this.updateBuy} />} />
-            <Route path="/sell/:value/:coins" component={Sell} render={props => <Sell updateSell = {this.updateSell} />} />
-            <Route path="/browse/:ledger" component={Browse} />
+            <Route path="/mine" render={(props) => <Mine {...props} updateMine = {this.updateMine} mineMessage={this.state.mineMessage} />} />                    
+            <Route path="/buy" render={(props) => <Buy {...props} updateBuy = {this.updateBuy} value={this.state.value} coins={this.state.coins} />} />
+            <Route path="/sell" render={(props) => <Sell {...props} updateSell = {this.updateSell} value={this.state.value} coins={this.state.coins} />} />
+            <Route path="/browse" component={Browse} />
         </BrowserRouter>
       </div>
     );

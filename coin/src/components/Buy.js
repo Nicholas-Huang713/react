@@ -4,7 +4,7 @@ class Buy extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            amount: 0
+            amount: ""
         }
     }
 
@@ -16,13 +16,13 @@ class Buy extends React.Component {
     }
 
      render() {
-         const {value, coins} = this.props;
+         const {value, coins, buyMessage} = this.props;
          return (
              <div>
                 <h1>Buy MyCoins</h1>
                 <p>Current MyCoin Value: ${value}.00</p>
                 <p>Number of MyCoins Owned: {coins} </p>
-                
+                {buyMessage}
                 <form onSubmit={this.props.updateBuy}>
                     <input type="number" 
                             name="amountBuy"

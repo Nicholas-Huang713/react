@@ -7,23 +7,6 @@ class Mine extends React.Component {
             answer: ""
         }
     }
-    
-    handleSubmit = (e) => {
-        
-        const {answer} = this.state;
-        if(answer === "christmas"){
-            this.setState({
-                message: "Correct!"
-            })
-            
-        } 
-        else {
-            this.setState({
-                message: "Wrong. Try again!"
-            })
-        }
-       
-    }
 
 
     handleChange = (event) => {
@@ -31,7 +14,7 @@ class Mine extends React.Component {
             answer: event.target.value
         })
     }
-     render() {
+    render() {
         const {mineMessage} = this.props;
        
 

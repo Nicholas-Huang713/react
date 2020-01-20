@@ -13,6 +13,9 @@ class Sell extends React.Component {
             amount: event.target.value
         })
     }
+    componentDidMount(){
+        this.props.refreshSell();
+    }
      render() {
         const {value, coins, sellMessage} = this.props;
          return (

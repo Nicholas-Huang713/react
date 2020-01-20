@@ -15,6 +15,10 @@ class Buy extends React.Component {
         })
     }
 
+    componentDidMount(){
+        this.props.refreshBuy();
+    }
+
      render() {
          const {value, coins, buyMessage} = this.props;
          return (

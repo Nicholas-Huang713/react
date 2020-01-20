@@ -17,15 +17,16 @@ class Browse extends React.Component {
                             <th>Action</th>
                             <th>Amount</th> 
                             <th>Value</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {ledger.map((item, key)=> {
+                        {ledger.map((item, index)=> {
                             return <tr key={item.id}>
                                         <td>{item.action}</td>
                                         <td>{item.amount}</td>
                                         <td>{item.value}</td>
-                                        <td><Link to={`/browse/${item.id}`}>Details</Link></td>
+                                        <td><Link to={`/browse/${index}/${item.id}`}>Details</Link></td>
                                     </tr>
                         })
                         }

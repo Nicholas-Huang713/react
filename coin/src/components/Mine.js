@@ -14,6 +14,10 @@ class Mine extends React.Component {
             answer: event.target.value
         })
     }
+    componentDidMount(){
+        this.props.refreshMine();
+    }
+
     render() {
         const {mineMessage} = this.props;
        

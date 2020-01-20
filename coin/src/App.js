@@ -35,11 +35,12 @@ class App extends React.Component {
     console.log(answer);
     if(answer === "christmas"){
       this.setState(prevState => ({
-        value: prevState.value + 1
+        value: prevState.value + 1,
+        coins: prevState.coins + 1
       }))
       const {value, coins, ledger} = this.state;
       const randID = Math.floor(Math.random() * 9999);
-      const ledgerList = ledger.concat({id: randID, action: "Mined", amount: coins, value: value + 1})
+      const ledgerList = ledger.concat({id: randID, action: "Mined", amount: coins + 1, value: value + 1, actionAmt: 1})
       this.setState({
         mineMessage: "Correct!",
         ledger: ledgerList
@@ -56,13 +57,13 @@ class App extends React.Component {
   updateBuy =(e) => {
     const {value, coins, ledger} = this.state;
     e.preventDefault();
-    const amount = e.target.amountBuy.value;
-    console.log(amount);
-    if(amount === ""){
+    const amountBought = e.target.amountBuy.value;
+    console.log(amountBought);
+    if(amountBought === ""){
       this.setState({
         buyMessage: "Please enter a valid amount"
       })
-    } else if(amount < 1){
+    } else if(amountBought < 1){
       this.setState({
         buyMessage: "Please enter an amount greater than 0"
       })
@@ -70,10 +71,10 @@ class App extends React.Component {
     else{
       this.setState(prevState => ({
         value: prevState.value + 1,
-        coins: prevState.coins + parseInt(amount)
+        coins: prevState.coins + parseInt(amountBought)
       }));
       const randID = Math.floor(Math.random() * 9999);
-      const ledgerList = ledger.concat({id: randID, action: "Bought", amount: coins + 1, value: value +1})
+      const ledgerList = ledger.concat({id: randID, action: "Bought", amount: coins + 1, value: value +1, actionAmt: amountBought})
       this.setState({
         ledger: ledgerList
       })
@@ -84,19 +85,19 @@ class App extends React.Component {
   updateSell = (e) => {
     const {value, coins, ledger} = this.state;
     e.preventDefault();
-    const amount = e.target.amountSell.value;
-    console.log(amount);
-    if(amount === ""){
+    const amountSold = e.target.amountSell.value;
+    console.log(amountSold);
+    if(amountSold === ""){
       this.setState({
         sellMessage: "Please enter a valid amount"
       })
     } 
-    else if(amount < 1){
+    else if(amountSold < 1){
       this.setState({
         sellMessage: "Please enter an amount greater than 0"
       })
     }
-    else if(this.state.coins < amount){
+    else if(this.state.coins < amountSold){
       this.setState({
         sellMessage: "You do not have enough coins to sell"
       })
@@ -104,23 +105,39 @@ class App extends React.Component {
     else{
       this.setState(prevState => ({
         value: prevState.value - 1,
-        coins: prevState.coins - parseInt(amount),
+        coins: prevState.coins - parseInt(amountSold),
       }));
       const randID = Math.floor(Math.random() * 9999);
-      const ledgerList = ledger.concat({id: randID, action: "Sold", amount: coins - 1, value: value - 1})
+      const ledgerList = ledger.concat({id: randID, action: "Sold", amount: coins - 1, value: value - 1, actionAmt: amountSold})
       this.setState({
         ledger: ledgerList
       })
     }
   }
 
+  refreshMine = () => {
+    this.setState({
+      mineMessage: ""
+    })
+  } 
+  refreshBuy = () => {
+    this.setState({
+      buyMessage: ""
+    })
+  } 
+  refreshSell = () => {
+    this.setState({
+      sellMessage: ""
+    })
+  } 
+
   render() {
     return (
       <div className="App">
         <BrowserRouter>
-          <div className="container text-center">
+          <div className="container">
             <h1>Coin App</h1>
-            <div className="btn-group btn-group-lg" role="group" aria-label="Button Navigation">
+            <div className="btn-group btn-group-lg text-center" role="group" aria-label="Button Navigation">
                 <Link to="/"><button className="btn btn-outline-dark">Home</button></Link>
                 <Link to="/mine"><button className="btn btn-outline-dark">Mine Coins</button></Link>
                 <Link to="/buy"><button className="btn btn-outline-dark">Buy Coins</button></Link>
@@ -129,11 +146,11 @@ class App extends React.Component {
             </div>
           </div>
             <Route exact path="/" component={Home} />
-            <Route path="/mine" render={(props) => <Mine {...props} updateMine = {this.updateMine} mineMessage={this.state.mineMessage} />} />                    
-            <Route path="/buy" render={(props) => <Buy {...props} updateBuy = {this.updateBuy} value={this.state.value} coins={this.state.coins} buyMessage ={this.state.buyMessage} />} />
-            <Route path="/sell" render={(props) => <Sell {...props} updateSell = {this.updateSell} value={this.state.value} coins={this.state.coins} sellMessage={this.state.sellMessage} />} />
+            <Route path="/mine" render={(props) => <Mine {...props} updateMine = {this.updateMine} refreshMine={this.refreshMine} mineMessage={this.state.mineMessage} />} />                    
+            <Route path="/buy" render={(props) => <Buy {...props} updateBuy = {this.updateBuy} refreshBuy={this.refreshBuy} value={this.state.value} coins={this.state.coins} buyMessage ={this.state.buyMessage} />} />
+            <Route path="/sell" render={(props) => <Sell {...props} updateSell = {this.updateSell} refreshSell={this.refreshSell} value={this.state.value} coins={this.state.coins} sellMessage={this.state.sellMessage} />} />
             <Route exact path="/browse" render={(props) => <Browse {...props} ledger={this.state.ledger} />} />
-            <Route path="/browse/:id" render={(props) => <ItemDetails {...props} ledger={this.state.ledger} />}/>
+            <Route path="/browse/:index/:id" render={(props) => <ItemDetails {...props} ledger={this.state.ledger} />}/>
         </BrowserRouter>
       </div>
     );

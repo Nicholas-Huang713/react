@@ -135,8 +135,6 @@ class WorkForm extends React.Component {
                                    name="description"
                                    value={this.state.description}
                                    onChange={this.handleChange} />
-                        
-                        
                     </div>
                     <div className="form-group">
                         <label> Minutes:</label>

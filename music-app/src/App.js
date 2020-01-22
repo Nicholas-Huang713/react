@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Start from './components/Start';
+import AllMusic from './AllMusic';
 
 class App extends React.Component {
   constructor(props){
@@ -18,7 +19,7 @@ class App extends React.Component {
             <h1>Hip Hop History</h1>
             <p>Listen to the evolution of Hip Hop's sound.</p>
           </div>
-          <Start />
+          <AllMusic />
         </div>  
       </div>
     );

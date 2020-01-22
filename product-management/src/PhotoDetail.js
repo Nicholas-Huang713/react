@@ -10,7 +10,6 @@ class PhotoDetail extends React.Component {
             errorMessage: ""
             // photoList: []
         }
-        // this.input = React.createRef();
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }

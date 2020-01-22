@@ -6,7 +6,6 @@ import Home from './Home';
 import PhotoList from './PhotoList';
 import PostPhoto from './PostPhoto';
 import PhotoDetail from './PhotoDetail';
-// import {Router, ActivatedRoute} from '@angular/router';
 
 class App extends React.Component {
   constructor(props){
@@ -16,26 +15,6 @@ class App extends React.Component {
     }
   }
 
-//   handleSubmit = (event) => {
-//     if(!this.canBeSubmitted()){
-//         event.preventDefault();
-//         return;
-//     }
-//     event.preventDefault();
-//     this.setState({
-//         errorMessage: ""
-//     })
-// }
-
-//   canBeSubmitted() {
-//     const {title} = this.state;
-//     if(title.length < 4) {
-//         this.setState({
-//             errorMessage: "Title must be longer than 4 characters"
-//         })
-//     }
-//     return title.length > 4
-//   }
   addToList = (newPost) => {
     const{photoList} = this.state;
     this.setState({

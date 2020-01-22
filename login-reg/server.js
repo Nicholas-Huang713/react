@@ -4,11 +4,11 @@ const morgan = require('morgan');
 const path = require('path');
 
 const app = express(); 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8001;
 
 const routes = require('./routes/api')
 
-mongoose.connect('mongodb://localhost/photo_manager', {
+mongoose.connect('mongodb://localhost/login_reg', {
     useNewUrlParser: true, 
     useUnifiedTopology: true
 });

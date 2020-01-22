@@ -11,7 +11,7 @@ class Start extends React.Component {
     }
 
     handleLogin = () => {
-        this.setState({
+        this.setState({ 
             currentPage : "login"
         })
     }

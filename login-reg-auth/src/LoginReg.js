@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+const jwt = require('jsonwebtoken');
 
 class LoginReg extends React.Component {
     constructor(props){
@@ -30,12 +31,9 @@ class LoginReg extends React.Component {
         event.preventDefault();
         this.props.history.push('/dashboard');
     }
-    userCanBeMatched() {
-        
-    }
 
     handleRegister = (event) => {
-        if(!this.canBeSubmitted()){
+        if(!this.regCanBeSubmitted()){
             event.preventDefault();
             return;
         }
@@ -44,23 +42,29 @@ class LoginReg extends React.Component {
             name: this.state.regName,
             password: this.state.regPassword
         }
+        jwt.sign({newUser}, 'secretkey', (err, token) => {
+            localStorage.setItem('token', token);
+            
+        });
+        this.props.insertToken();
+        this.props.history.push('/protected');
+        
         axios({
-            url: '/api/save',
+            url: '/api/register',
             method: 'POST',
             data: newUser        
         })
         .then(() => {
-            console.log('New user created', newUser);
-            this.props.history.push('/dashboard');
-            // this.resetUserInputs();
+            console.log('New user registered', newUser);
         })
         .catch(() => {
             console.log('Internal server error');
         });
+        
     }
 
-    canBeSubmitted() {
-        const {regName, regPassword} = this.state;
+    regCanBeSubmitted() {
+        const {regName, regPassword, userList} = this.state;
         if(regName.length < 4) {
             this.setState({
                 regError: "Name must be longer than 4 characters"
@@ -81,7 +85,18 @@ class LoginReg extends React.Component {
                 regError: "All fields required"
             })
         }
-        return regName.length > 4 && regName !== "" && regPassword !== "" 
+        const dataContainer =[];
+        for(var i = 0; i < userList.length; i++){
+            if(userList[i].name===regName){
+                dataContainer.push(userList[i]);
+            }
+        }
+        if(dataContainer.length > 0){
+            this.setState({
+                regError: "User with same name already created"
+            })
+        }
+        return regName.length > 4 && regName !== "" && regPassword !== ""  && dataContainer.length === 0
     }
 
     componentDidMount() {
@@ -102,6 +117,7 @@ class LoginReg extends React.Component {
 
     render(){
         const {logError, regError} = this.state;
+
         return (
             <div className="LoginReg">
             <h2>Login</h2>
@@ -118,7 +134,7 @@ class LoginReg extends React.Component {
                         <input type="text" 
                                 name="logPassword"
                                 value={this.state.logPassword}                                
-                                onChange={this.handlChange}                               
+                                onChange={this.handleChange}                               
                         />
                     </p>
                     <button>Login</button>

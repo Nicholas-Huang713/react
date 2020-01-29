@@ -24,12 +24,53 @@ class LoginReg extends React.Component {
         })
     }
     handleLogin = (event) => {
+        const {logName, logPassword} = this.state;
         if(!this.userCanBeMatched()) {
             event.preventDefault();
             return;
         }
         event.preventDefault();
-        this.props.history.push('/dashboard');
+        const currentUser = {
+            name: logName,
+            password: logPassword
+        }
+        jwt.sign({currentUser}, 'secretkey', (err, token) => {
+            localStorage.setItem('token', token);
+            
+        });
+        this.props.insertToken();
+        this.props.history.push('/protected');
+    }
+
+    userCanBeMatched(){
+        const{userList, logName, logPassword} = this.state;
+        if(logName === "") {
+            this.setState({
+                logError: "Name field required"
+            })
+        }
+        if(logPassword=== "") {
+            this.setState({
+                logError: "Password field required"
+            })
+        }
+        if(logName==="" && logPassword==="") {
+            this.setState({
+                logError: "All fields required"
+            })
+        }
+        let userCanBeMatched = false;
+        for(var i = 0; i < userList.length; i++){
+            if(userList[i].name===logName && userList[i].password=== logPassword){
+                userCanBeMatched = true;
+                }
+            }
+        if(!userCanBeMatched){
+            this.setState({
+                logError: "Name or password incorrect"
+            })
+        }
+        return userCanBeMatched && logName !== "" && logPassword !== ""
     }
 
     handleRegister = (event) => {

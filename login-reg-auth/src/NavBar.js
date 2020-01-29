@@ -1,47 +1,55 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
-// import auth0Client from './Auth';
+import {withRouter} from 'react-router-dom';
 
 class NavBar extends React.Component { 
     constructor(props) {
         super(props);
         this.state={
+            loginPage: null
         }
     }
 
     signOut =() =>{
         localStorage.removeItem('token');
         this.props.removeToken();
+        this.setState({
+            loginPage: true
+        })
+        this.props.history.push('/login');
+    }
+
+    handleLoginClick = () => {
+        this.setState({
+            loginPage: true
+        })
+        this.props.history.push('/login')
+    }
+
+    handleHomeClick = () => {
+        this.setState({
+            loginPage: false
+        })
         this.props.history.push('/');
     }
 
     render() {
-        // let currentButton;
-        // const token = localStorage.getItem('token');
-        // if(!token) {
-        //     currentButton = <Link to="/login"> Login and Registration </Link>
-        // } else {
-        //     currentButton = <button onClick={this.signOut}>Sign Out</button>
-        // }
         const {token} = this.props;
+        const {loginPage} = this.state;
         return (
             <nav>
-                <Link className="navbar-brand" to="/">
-                    Home
-                </Link>
+                
                 {
-                    token &&
+                    token && 
                     <button onClick={this.signOut}>Sign Out</button>
                 }
                 {
-                    !token &&
-                    <button onClick={this.handleLoginClick}> <Link to="/login"> Login and Registration </Link></button>
+                    (!token && loginPage) ? 
+                    <button onClick={this.handleHomeClick}>Home</button> :
+                    <button onClick={this.handleLoginClick}>Login and Registration</button> 
                 }
             </nav>
         );
-    }
-
-  
+    }  
 }
 
 export default withRouter(NavBar);

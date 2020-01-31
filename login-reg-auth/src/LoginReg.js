@@ -20,7 +20,7 @@ class LoginReg extends React.Component {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({ 
-            [name] : value
+            [name] : value 
         })
     }
     handleLogin = (event) => {

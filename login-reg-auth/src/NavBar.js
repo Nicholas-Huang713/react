@@ -9,7 +9,7 @@ class NavBar extends React.Component {
         }
     }
 
-    signOut =() =>{
+    signOut = () =>{
         localStorage.removeItem('token');
         this.props.removeToken();
         this.setState({
@@ -37,7 +37,6 @@ class NavBar extends React.Component {
         const {loginPage} = this.state;
         return (
             <nav>
-                
                 {
                     token && 
                     <button onClick={this.signOut}>Sign Out</button>

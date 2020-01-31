@@ -39,7 +39,6 @@ router.post('/posts', verifyToken, (req, res) => {
     
 });
 
-
 router.post('/register', (req, res) => {
     console.log('Body: ', req.body);
     const data = req.body;

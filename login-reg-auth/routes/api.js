@@ -19,7 +19,7 @@ router.get('/:name', (req,res)=> {
     .then((data)=> {
         console.log(data);
         res.json(data);
-    })
+    })    
     .catch((error)=>{
         console.log("Error: " + error);
     })
@@ -61,7 +61,7 @@ router.post('/register', (req, res) => {
 
 //Verify Token
 function verifyToken(req, res, next){
-    //get auth header value
+    //get auth header value 
     const bearerHeader = req.headers['authorization'];
     //check if bearer is undefined
     if(typeof bearerHeader !== 'undefined'){

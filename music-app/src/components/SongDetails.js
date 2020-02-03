@@ -19,7 +19,7 @@ class SongDetails extends React.Component {
                         <br/>
                         <br/>
                     </div>
-                    <div className="col">
+                    <div className="col mt-5">
                         <br/>
                         <h2>{song.title_short} </h2> 
                         <p> <img src={song.artist.picture_small} alt="artist" /> {song.artist.name}</p>

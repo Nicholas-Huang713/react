@@ -19,15 +19,20 @@ function App() {
         <button onClick={() => dispatch(signin())}>Signin</button>
       }
       <br></br>
-      {
-        nameList.map((name, index)=>{
-          return <ul key={index}>
-                    <li>{name}</li>
-                </ul>
-        })
-      }
+      
       <button onClick={() => dispatch(addname())}>Add Name to list</button> |
       <button onClick={() => dispatch(removename())}>Remove Name from list</button>
+      <ul>
+        {
+          nameList.map((name, index)=>{
+            return <li key={index}>
+                      {name}
+                   </li>
+          })
+        }
+      </ul>
+      
+      
     </div>
   );
 }

@@ -3,32 +3,36 @@ import './App.css';
 import Home from './components/Home';
 import Login from './components/Login';
 import Registration from './components/Registration';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
+import AllMusic from './AllMusic';
+import NavBar from './components/NavBar';
 
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentSong : [],
-      token: false
+      currentSong : []
     }
   }
-  insertToken = () => {
-    this.setState({
-      token: true
-    })
-  }
-  removeToken = () => {
-    localStorage.removeItem("token");
-    this.setState({
-      token: false
-    })
-    // this.props.history.push('/');
+
+  renderPage = () => {
+    this.forceUpdate();
   }
 
+  // componentDidMount() {
+  //   const jwt = getJwt();
+  //   if(!jwt){
+  //     this.setState({
+  //       token: undefined
+  //     });
+  //   }
+  //   this.setState({
+  //     token: jwt
+  //   })
+  // }
+
   render() {
-    const {token} = this.state;
     return (
       <div className="App"> 
         <div className="container">
@@ -37,24 +41,15 @@ class App extends React.Component {
             <p>Listen to the evolution of Hip Hop's sound.</p>
           </div>
           <Router>
-            {
-              token ? 
-                <div className="container text-center mt-3">
-                  <button className="btn btn-outline-dark" onClick={this.removeToken}>Logout</button>
-                </div>
-                :
-                <div className="container text-center mt-3">
-                  <div className="btn-group btn-group-lg" role="group" aria-label="Button Navigation">
-                    <Link to="/login"><button type="button" className="btn btn-outline-dark">Login</button></Link>
-                    <Link to="/register"><button type="button" className="btn btn-outline-dark">Register</button></Link>
-                  </div>
-                </div>
-            }
-            
-            <Route exact path="/" component={Home} />
-            <Route path="/login" render={(props) => <Login {...props} insertToken={this.insertToken} />} />
-            <Route path="/register" render={(props) => <Registration {...props} insertToken={this.insertToken} />} />
-            <PrivateRoute path="/protected" token={token} />
+            <NavBar />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/login" render={(props) => <Login {...props} renderPage={this.renderPage} />} />
+              <Route path="/register" render={(props) => <Registration {...props} renderPage={this.renderPage} />} />
+              <PrivateRoute>
+                <Route path='/dashboard' component={AllMusic} />
+              </PrivateRoute>
+            </Switch>
         </Router>
         </div>  
        

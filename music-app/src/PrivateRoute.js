@@ -1,35 +1,41 @@
 import React from 'react';
-import {Route, Redirect} from "react-router-dom";
-import AllMusic from './AllMusic';
+import { withRouter} from "react-router-dom";
+import {getJwt} from './helpers/jwt';
 
-class PrivateRoute extends React.Component {
+class PrivateRoute extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      token: false
+    this.state ={
+      token: undefined
     }
   }
-  // componentDidMount() {
-  //   const token = localStorage.getItem("token");
-  //   this.setState({
-  //     token
-  //   })
-  // }
+
+  componentDidMount =() => {
+    const jwt = getJwt();
+    if(!jwt) {
+      this.props.history.push('/login');
+    }
+    this.setState({
+      token: jwt
+    })
+    // console.log("token", this.state.token);
+  }
+  componentWillUnmount(){
+    this.setState({
+      token: undefined
+    })
+  }
   render(){
     const {token} = this.state;
+    if(token === undefined){
+      return (
+        <div><h1>Loading...</h1></div>
+      )
+    }
     return (
-      <Route
-          render={() => 
-              localStorage.getItem("token") ? (
-                  <AllMusic />
-              ) : (
-                  <Redirect to="/" />
-              )
-          }
-      />
-    );
-  }
-  
+      <div> {this.props.children}</div>    
+    );   
+  }      
 }
 
-export default PrivateRoute;
+export default withRouter(PrivateRoute);

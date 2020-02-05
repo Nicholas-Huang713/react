@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
 import axios from 'axios';
-const jwt = require('jsonwebtoken');
 
 class Login extends React.Component {
     constructor(props){
@@ -9,8 +8,7 @@ class Login extends React.Component {
         this.state ={
             email: "",
             password: "",
-            userList: [],
-            logError: ""
+            errorMsg: ""
         }
         
     }
@@ -23,76 +21,46 @@ class Login extends React.Component {
     }
     handleLogin = (event) => {
         const {email, password} = this.state;
-        if(!this.userCanBeMatched()) {
-            event.preventDefault();
-            return;
-        }
         event.preventDefault();
         const currentUser = {
             email,
             password
         }
-        jwt.sign({currentUser}, 'secretkey', (err, token) => {
-            localStorage.setItem('token', token);
-        });
-        // this.props.insertToken();
-            this.props.history.push('/protected');
-        
-    }
-    userCanBeMatched(){
-        const{userList, email, password} = this.state;
-        if(email === "") {
-            this.setState({
-                logError: "Name field required"
-            })
-        }
-        if(password=== "") {
-            this.setState({
-                logError: "Password field required"
-            })
-        }
-        if(email==="" && password==="") {
-            this.setState({
-                logError: "All fields required"
-            })
-        }
-        let userCanBeMatched = false;
-        for(var i = 0; i < userList.length; i++){
-            if(userList[i].email===email && userList[i].password=== password){
-                userCanBeMatched = true;
-                }
-            }
-        if(!userCanBeMatched){
-            this.setState({
-                logError: "Name or password incorrect"
-            })
-        }
-        return userCanBeMatched && email !== "" && password !== ""
-    }
-
-    componentDidMount() {
-        this.getAllUsers();
-    }
-
-    getAllUsers = () => {
-        axios.get('/api')
-        .then((response) => {
-          const data = response.data;
-          this.setState({userList: data});
-          console.log('User list retrieved');
+        axios({
+            url: '/api/login',
+            method: 'POST',
+            data: currentUser        
         })
-        .catch(() => {
-          console.log('Error retrieving data');
-        });
-      }
+        .then((res) => {
+            console.log('User logged in: ', currentUser);
+            localStorage.setItem('token', res.data);
+            this.props.history.push('/dashboard');
+            this.props.renderPage();  
+        })
+        .catch((err) => {
+            this.setState({
+                errorMsg: err.response.data
+            })
+            console.log('Error:' + JSON.stringify(err.response.data));
+        });        
+    }
+   
+
+    componentWillUnmount() {
+        this.setState({
+            email: "",
+            password: "",
+            errorMsg: "",
+        })
+    }
 
     render() {
-        const {logError} = this.state;
+        const {errorMsg} = this.state;
         return (
 
           <div className="container mt-5">
             <h3 className="text-center">Login Here</h3>
-            <p className="text-danger">{logError}</p>
+            <p className="text-danger text-center text-uppercase font-italic">{errorMsg}</p>
             <form className="logform-style" onSubmit={this.handleLogin}>
                 <div className="form-group">
                     <label>Email address</label>

@@ -2,9 +2,6 @@ import React from 'react';
 
 
 class SongDetails extends React.Component {
-    constructor(props){
-        super(props);
-    }
 
     render() {
         const {song} = this.props;

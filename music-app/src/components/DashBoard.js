@@ -1,40 +1,58 @@
 import React from 'react';
 import axios from 'axios';
-import {getJwt, getStorageEmail} from '../helpers/jwt';
-
+import {getJwt} from '../helpers/jwt';
+import '../App.css';
 
 class DashBoard extends React.Component {
     constructor(props){
         super(props);
         this.state ={
-            currentUser: []
+            currentUser: undefined
         }
     }
 
     componentDidMount() {
         const jwt = getJwt();
-        // const email = getStorageEmail();
         axios({
             url: '/api/getuser',
             method: 'GET',
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
-        // axios.get('/api/getuser', {})
         .then((res) => {
            this.setState({
                currentUser: res.data
            })
-           console.log('User: ' + res.data);
+        //    console.log('State User: ' + this.state.currentUser[0].firstname);
+        //    console.log('User: ' + JSON.stringify(res.data));
         })
         .catch((err) => {
-            console.log('Error:' + err.response.data);
+            console.log('Error:' + err);
         });
         
     }
     render() {
+        const {currentUser} = this.state;
+        let firstName;
+        if(currentUser === undefined){
+            firstName = ""
+        } else{
+            firstName = currentUser[0].firstname;
+        }
+        
+        
         return(
-            <div>
-                <h3>Welcome Nick</h3>
+            <div className="dashboard mt-4">
+                <h3>Welcome {firstName} </h3>
+                <div className="list-group">
+                    <button type="button" className="list-group-item list-group-item-action active">
+                        Cras justo odio
+                    </button>
+                    <button type="button" className="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+                    <button type="button" className="list-group-item list-group-item-action">Morbi leo risus</button>
+                    <button type="button" className="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+                    <button type="button" className="list-group-item list-group-item-action" disabled>Vestibulum at eros</button>
+                </div>
+
             </div>
         )
     }

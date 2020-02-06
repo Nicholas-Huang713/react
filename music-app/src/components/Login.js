@@ -34,7 +34,7 @@ class Login extends React.Component {
         .then((res) => {
             console.log('User logged in: ', currentUser);
             localStorage.setItem('token', res.data);
-            localStorage.setItem('email', email);
+            // localStorage.setItem('email', email);
             this.props.history.push('/dashboard');
             this.props.renderPage();  
         })
@@ -42,7 +42,7 @@ class Login extends React.Component {
             this.setState({
                 errorMsg: err.response.data
             })
-            console.log('Error:' + JSON.stringify(err.response.data));
+            console.log('Error:' + err.response.data);
         });        
     }
    

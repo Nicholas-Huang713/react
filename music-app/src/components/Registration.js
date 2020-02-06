@@ -43,7 +43,7 @@ class Registration extends React.Component {
         })
         .then((res) => {
             console.log('New user registered', newUser);
-            const token = JSON.stringify(res.data);
+            const token = res.data;
             localStorage.setItem('token', token);
             this.props.history.push('/dashboard');
             this.props.renderPage();  
@@ -53,7 +53,7 @@ class Registration extends React.Component {
             this.setState({
                 errorMsg: err.response.data
             })
-            console.log('Error:' + JSON.stringify(err.response.data));
+            console.log('Error:' + err.response.data);
         });
         
         

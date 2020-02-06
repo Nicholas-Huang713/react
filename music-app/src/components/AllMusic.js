@@ -1,6 +1,6 @@
 import React from 'react';
-import EraList from './components/EraList';
-import SongDetails from './components/SongDetails';
+import EraList from './EraList';
+import SongDetails from './SongDetails';
 import axios from 'axios';
 
 

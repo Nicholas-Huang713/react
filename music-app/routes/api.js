@@ -25,9 +25,13 @@ router.get('/getuser', verifyToken, (req, res) => {
         if(err){
             res.sendStatus(403);
         } else {
-            const user = Users.find({_id : decoded});
-            res.json({
-                user
+            Users.find({_id: decoded})
+                .then((data) => {
+                    console.log('Data: ' + data);
+                    res.json(data);
+                })
+                .catch((error) => {
+                    console.log('Error: ' + error)
             });
         }
     })

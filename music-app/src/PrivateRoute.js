@@ -18,8 +18,8 @@ class PrivateRoute extends React.Component{
     this.setState({
       token: jwt
     })
-    // console.log("token", this.state.token);
   }
+  
   componentWillUnmount(){
     this.setState({
       token: undefined

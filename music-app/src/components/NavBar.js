@@ -18,8 +18,8 @@ class NavBar extends React.Component{
             <div>
                 {
                     localStorage.getItem("token") ? 
-                    <div className="container text-center mt-3">
-                    <button className="btn btn-outline-dark" onClick={this.removeToken}>Logout</button>
+                    <div className="container text-right mt-3">
+                        <button className="btn btn-outline-dark" onClick={this.removeToken}>Logout</button>
                     </div>
                     :
                     <div className="container text-center mt-3">

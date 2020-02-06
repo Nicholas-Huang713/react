@@ -29,11 +29,12 @@ class Login extends React.Component {
         axios({
             url: '/api/login',
             method: 'POST',
-            data: currentUser        
+            data: currentUser 
         })
         .then((res) => {
             console.log('User logged in: ', currentUser);
             localStorage.setItem('token', res.data);
+            localStorage.setItem('email', email);
             this.props.history.push('/dashboard');
             this.props.renderPage();  
         })
@@ -73,7 +74,7 @@ class Login extends React.Component {
                 </div>
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="text" 
+                    <input type="password" 
                             className="form-control"
                             name="password"                            
                             value={this.state.password}

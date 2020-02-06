@@ -5,7 +5,7 @@ const addName = (state = [], action) => {
             state = state.concat('Nick');
             break;
         case 'REMOVE_NAME':
-            state = state.slice(1,state.length - 1);
+            state = state.slice(1, state.length - 1);
             break;
         default: 
             return state;

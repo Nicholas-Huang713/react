@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import {withRouter} from 'react-router-dom';
 
-const jwt = require('jsonwebtoken');
 
 class Registration extends React.Component {
     constructor(props){
@@ -44,7 +43,8 @@ class Registration extends React.Component {
         })
         .then((res) => {
             console.log('New user registered', newUser);
-            localStorage.setItem('token', res.data);
+            const token = JSON.stringify(res.data);
+            localStorage.setItem('token', token);
             this.props.history.push('/dashboard');
             this.props.renderPage();  
             
@@ -106,7 +106,7 @@ class Registration extends React.Component {
                     </div>
                     <div className="form-group">
                         <label>Password</label>
-                        <input type="text" 
+                        <input type="password" 
                                 className="form-control"
                                 name="password"                            
                                 value={this.state.password}

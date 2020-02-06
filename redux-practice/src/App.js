@@ -4,9 +4,10 @@ import {increment, decrement, signin, signout, addname, removename} from './acti
 
 function App() {
   const counter = useSelector(state => state.counter);
-  const dispatch = useDispatch();
   const loginState = useSelector(state => state.isLogged);
   const nameList = useSelector(state => state.addName);
+  const dispatch = useDispatch();
+  
   return (
     <div className="App">
       <h1>Counter {counter} </h1>

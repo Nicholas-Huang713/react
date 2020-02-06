@@ -5,7 +5,8 @@ import Login from './components/Login';
 import Registration from './components/Registration';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import AllMusic from './AllMusic';
+// import AllMusic from './AllMusic';
+import DashBoard from './components/DashBoard';
 import NavBar from './components/NavBar';
 
 class App extends React.Component {
@@ -47,12 +48,11 @@ class App extends React.Component {
               <Route path="/login" render={(props) => <Login {...props} renderPage={this.renderPage} />} />
               <Route path="/register" render={(props) => <Registration {...props} renderPage={this.renderPage} />} />
               <PrivateRoute>
-                <Route path='/dashboard' component={AllMusic} />
+                <Route path='/dashboard' component={DashBoard} />
               </PrivateRoute>
             </Switch>
         </Router>
         </div>  
-       
       </div>
     );
   }

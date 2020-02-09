@@ -2,6 +2,7 @@ import React from 'react';
 import EraList from './EraList';
 import SongDetails from './SongDetails';
 import axios from 'axios';
+import {getJwt} from '../helpers/jwt';
 
 
 class AllMusic extends React.Component {
@@ -14,11 +15,15 @@ class AllMusic extends React.Component {
             ninetyList: [],
             currentEra: "",
             currentSong: {},
-            hasClicked: false
+            hasClicked: false,
+            currentUser: undefined,
+            stringList: []
         };
         this.chooseSong = this.chooseSong.bind(this);
     }
-
+    renderPage = () =>{
+        this.forceUpdate();
+    }
   
     componentDidMount() {
         const seventyIds = [3824597, 3824607, 131224316, 458844802];
@@ -38,15 +43,15 @@ class AllMusic extends React.Component {
                 "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
                 "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
                 }
-                })
-                .then((response)=>{
-                  seventyList.push(response.data);
-                  randomList.push(response.data);
-                //   console.log(seventyList)
-                })
-                .catch((error)=>{
-                //   console.log(error)
-            })   
+            })
+            .then((response)=>{
+                seventyList.push(response.data);
+                randomList.push(response.data);
+              console.log(seventyList)
+            })
+            .catch((error)=>{
+                console.log(error)
+        })   
             
         }
         for(const [index, value] of eightyIds.entries()) {
@@ -65,7 +70,7 @@ class AllMusic extends React.Component {
                 //   console.log(eightyList)
                 })
                 .catch((error)=>{
-                //   console.log(error)
+                  console.log(error)
             })   
             
         }
@@ -84,7 +89,7 @@ class AllMusic extends React.Component {
                   randomList.push(response.data);
                 })
                 .catch((error)=>{
-                //   console.log(error)
+                  console.log(error)
             })   
             
         }
@@ -94,6 +99,36 @@ class AllMusic extends React.Component {
             ninetyList,
             randomList
         })
+        const jwt = getJwt();
+        if(!jwt) {
+        this.props.history.push('/login');
+        }
+        axios({
+            url: '/api/getuser',
+            method: 'GET',
+            headers: {'Authorization' : `Bearer ${jwt}`}
+        })
+        .then((res) => {
+            const user = res.data;
+            this.pushToList(user[0].favelist);
+            this.setState({currentUser: JSON.stringify(user)});
+            console.log("State User: " + this.state.currentUser);
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        });
+    }
+
+    pushToList(list){
+        let updatedList = [];
+        
+        for(let i = 0; i < list.length; i++){
+            updatedList.push(Object.keys(list[i]));
+        }
+        this.setState({
+            stringList: updatedList
+        })
+        console.log("String List: " + this.state.stringList);
     }
 
     handleSeventies = () => {
@@ -146,17 +181,17 @@ class AllMusic extends React.Component {
     
 
     render() {
-        const {currentEra, seventyList, eightyList, ninetyList, currentSong} = this.state;
+        const {currentEra, seventyList, eightyList, ninetyList, currentSong, currentUser, stringList} = this.state;
         let era;
         let details;
         if (currentEra === "70s"){
-            era = <EraList name="70" songList={seventyList} chooseSong={this.chooseSong} />
+            era = <EraList name="70" songList={seventyList} chooseSong={this.chooseSong} currentUser={currentUser} stringList={stringList} renderPage={this.renderPage}/>
         } 
         else if(currentEra ==="80s") {
-            era = <EraList name="80" songList={eightyList} chooseSong={this.chooseSong} />
+            era = <EraList name="80" songList={eightyList} chooseSong={this.chooseSong} currentUser={currentUser} stringList={stringList} renderPage={this.renderPage}/>
         }
         else if(currentEra ==="90s") {
-            era = <EraList name="90" songList={ninetyList} chooseSong={this.chooseSong} />
+            era = <EraList name="90" songList={ninetyList} chooseSong={this.chooseSong} currentUser={currentUser} stringList={stringList} renderPage={this.renderPage}/>
         } else {
             era = <div style={{height: '300px'}}></div>
         }
@@ -175,7 +210,7 @@ class AllMusic extends React.Component {
                 <div className="text-center">
                     <br />
                     <div className="btn-group btn-group-lg" role="group" aria-label="Button Navigation">
-                        <button type="button" className="btn btn-success" onClick={this.handleDiscover}>Discover</button>
+                        <button type="button" className="btn btn-info" onClick={this.handleDiscover}>Discover</button>
                         <button type="button" className="btn btn-outline-dark" onClick={this.handleSeventies}>70's</button>
                         <button type="button" className="btn btn-outline-dark" onClick={this.handleEighties}>80's</button>
                         <button type="button" className="btn btn-outline-dark" onClick={this.handleNineties}>90's</button>

@@ -35,19 +35,6 @@ router.get('/getuser', verifyToken, (req, res) => {
             });
         }
     })
-   
-    // Users.find({email: req.body})
-    //     .then((data) => {
-    //         console.log('User Data from DB: ' + data);
-    //         res.json(data);
-    //     })
-    //     .catch((error) => {
-    //         res.json(error);
-    //         console.log('Error: ' + error);
-    // });  
-        
-    
-    // Users.findById()
 });
 
 //REGISTER
@@ -84,12 +71,44 @@ router.post('/login', async (req, res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if(!validPass) return res.status(400).send('Invalid password')
 
-    // res.json(user);
     //Create and assign token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.header('auth-token', token).send(token);
 });
 
+//LIKE SONG
+router.put('/like', verifyToken, (req, res) => {
+    const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
+    Users.updateOne({_id: decodedId}, {
+        $push: {favelist: req.body}
+    })
+    .then(result => {
+        Users.find({_id: decodedId})
+            .then((data) => {
+                console.log('Data: ' + data[0].favelist);
+                res.json(data);
+            })
+            .catch((error) => {
+                console.log('Error: ' + error)
+        });
+        // console.log("Result: " + JSON.stringify(result));
+    })
+    .catch(err => res.json(err));
+});
+
+// , (err, decoded) => {
+//         if(err){
+//             res.sendStatus(403);
+//         } else {
+            // Users.updateOne({_id: decoded}, {
+            //     $push: {favelist: req.body}
+            // })
+            // .then(result => {
+            //     res.json(result);
+            // })
+            // .catch(err => res.json(err));
+//         }
+//     })
 function verifyToken(req, res, next){
     //get auth header value 
     const bearerHeader = req.headers['authorization'];

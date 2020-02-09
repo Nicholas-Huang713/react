@@ -5,6 +5,24 @@
   height: 900px;
 }
 
+.page_header{
+  padding-top: 5px;
+  height: 100px;
+  width: 100%;
+}
+.logo{
+  width: 90px;
+  height: 90px;
+  border-radius: 25px;
+  margin-bottom: 60%;;
+  /* margin-top: 1%; */
+}
+
+.header_item{
+  display: inline-block;
+  padding-right: 10px;
+}
+
 .logform-style{
   width: 50%;
   margin-left: 25%;
@@ -18,10 +36,15 @@
 }
 
 .dashboard{
+  height: 100%;
   width: 100%;
 }
 
 .like-button{
   width: 4%;
   height: 4%;
+}
+
+.list-style{
+  margin-left: 35%;
 }

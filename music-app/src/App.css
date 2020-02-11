@@ -1,7 +1,8 @@
 .App {
-  background-image: url('./images/records.png');
+  /* background-image: url('./images/records.png');
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: 100% 100%; */
+  background-color:lightgray ;
   height: 900px;
 }
 
@@ -16,6 +17,13 @@
   border-radius: 25px;
   margin-bottom: 60%;;
   /* margin-top: 1%; */
+}
+.home-style{
+  background-image: url('./images/stereo.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 600px;
+  opacity: 0.6;
 }
 
 .header_item{
@@ -36,8 +44,11 @@
 }
 
 .dashboard{
-  height: 100%;
+  height: 900px;
   width: 100%;
+  background-image: url('./images/records.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .like-button{
@@ -47,4 +58,8 @@
 
 .list-style{
   margin-left: 35%;
+}
+
+.list-height{
+  height: 200px;
 }

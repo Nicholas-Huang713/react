@@ -7,7 +7,8 @@ class DashBoard extends React.Component {
     constructor(props){
         super(props);
         this.state ={
-            currentUser: undefined
+            currentUser: undefined,
+            detailList: [],
         }
     }
 
@@ -19,39 +20,96 @@ class DashBoard extends React.Component {
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-           this.setState({
-               currentUser: res.data
-           })
-        //    console.log('State User: ' + this.state.currentUser[0].firstname);
-        //    console.log('User: ' + JSON.stringify(res.data));
+            const user = res.data;
+            this.setState({
+                currentUser: user
+            })
+            this.pushToList(user[0].favelist);
+        //    console.log('Dashboard State User: ' + this.state.currentUser[0].favelist);
+           console.log('User: ' + JSON.stringify(user));
         })
         .catch((err) => {
             console.log('Error:' + err);
         });
         
     }
+
+    pushToList(list){
+        let updatedList = [];
+        let realList = [];
+        for(let i = 0; i < list.length; i++){
+            updatedList.push(Object.keys(list[i]));
+        }
+        for(let i=0;i<updatedList.length;i++){
+            axios({
+                "method":"GET",
+                "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${updatedList[i]}`,
+                "headers":{
+                "content-type":"application/octet-stream",
+                "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
+                "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
+                }
+                })
+                .then((response)=>{
+                   realList.push(response.data);
+                   this.setState({
+                    detailList: realList,
+                })
+                // console.log("Detail List: " + this.state.detailList);
+                })
+                .catch((error)=>{
+                  console.log(error)
+            })   
+        }
+        
+    }
     render() {
-        const {currentUser} = this.state;
+        const {currentUser, detailList} = this.state;
         let firstName;
+        // let list = [];
         if(currentUser === undefined){
-            firstName = ""
+            firstName = "";
         } else{
+            // list = detailList
             firstName = currentUser[0].firstname;
         }
         
-        
         return(
             <div className="dashboard mt-4">
-                <h3>Welcome {firstName} </h3>
-                <div className="list-group">
-                    <button type="button" className="list-group-item list-group-item-action active">
-                        Cras justo odio
-                    </button>
-                    <button type="button" className="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                    <button type="button" className="list-group-item list-group-item-action">Morbi leo risus</button>
-                    <button type="button" className="list-group-item list-group-item-action">Porta ac consectetur ac</button>
-                    <button type="button" className="list-group-item list-group-item-action" disabled>Vestibulum at eros</button>
+                <h2>Welcome {firstName} </h2>
+                <div className="row">
+                   
+                
+                    <div className="col border border-dark"> 
+                        <div className="h-25" >
+                            <div className="border-dark border-bottom">
+                                <h3>My Playlist</h3>
+                            </div>
+                            {
+                                    detailList.map((song, index) => {
+                                        return (
+                                            <div key={song.id}>
+                                                <button className="btn btn-transparent"> <img src={song.album.cover_small} alt="artist" /> 
+                                                    <b>{song.artist.name}</b> - {song.title} 
+                                                </button>   
+                                            </div>  
+                                            )       
+                                    })
+                                }
+                                
+                                
+                                
+                                {/* {
+                                    detailList.map((song) =>{
+                                        return <p>{song.title}</p>
+                                    })
+                                } */}
+                        </div>
+                    </div>
+                    <div className="col"></div>
+                    <div className="col"></div>
                 </div>
+                
 
             </div>
         )

@@ -1,9 +1,9 @@
 .App {
   /* background-image: url('./images/records.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%; */
-  background-color:lightgray ;
-  height: 900px;
+  background-repeat: no-repeat; */
+  background-size: 100% 100%;
+  /* background-color:darkgray ; */
+  height: 100%;
 }
 
 .page_header{
@@ -16,8 +16,8 @@
   height: 90px;
   border-radius: 25px;
   margin-bottom: 60%;;
-  /* margin-top: 1%; */
 }
+
 .home-style{
   background-image: url('./images/stereo.png');
   background-repeat: no-repeat;
@@ -44,22 +44,88 @@
 }
 
 .dashboard{
-  height: 900px;
+  height: 450px;
   width: 100%;
   background-image: url('./images/records.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
 
+.dashboard-list-style{
+  margin-left: 20px;
+  height: 350px;
+  overflow-y: scroll;
+}
+.dashboard-list-style::-webkit-scrollbar {
+  display: none
+}
+
 .like-button{
-  width: 4%;
-  height: 4%;
+  width: 2%;
+  height: 2%;
+}
+
+.list-container{
+  height: 360px;
+  overflow-y: scroll;
+}
+
+.list-container::-webkit-scrollbar {
+  display: none
 }
 
 .list-style{
-  margin-left: 35%;
+  margin-left: 10px;
 }
 
 .list-height{
   height: 200px;
+}
+
+.browse-bg-style{
+  background-image: url('./images/turntable.png');
+  background-repeat: no-repeat;
+  background-size: cover ;
+  height: 450px;
+  padding-top: 100px;
+  /* opacity: 0.5; */
+}
+
+.seventy-bg-style{
+  background-image: url('./images/70sllcool.jpg');
+  background-repeat: no-repeat;
+  background-size: cover ;
+  height: 450px;
+  /* opacity: 0.5; */
+}
+.eighty-bg-style{
+  background-image: url('./images/80s.jpg');
+  background-repeat: no-repeat;
+  background-size: cover ;
+  height: 450px;
+  /* opacity: 0.5; */
+}
+.ninety-bg-style{
+  background-image: url('./images/90s.jpg');
+  background-repeat: no-repeat;
+  background-size: cover ;
+  height: 450px;
+  /* opacity: 0.5; */
+  /* filter: blur(1px);
+  -webkit-filter: blur(1px); */
+}
+
+.song-button{
+  background-color: lightslategrey;
+  /* width: 40%; */
+  opacity: 0.8;
+  border-radius: 20px;
+}
+
+.cover-style{
+  width: 185px;
+  height: 185x;
+  border: solid;
+  border-color: white;
+  margin-left: 150px;
 }

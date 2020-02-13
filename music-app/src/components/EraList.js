@@ -26,9 +26,6 @@ class EraList extends React.Component {
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-        //    this.setState({
-        //         currentUser: res.data
-        //    })
            console.log('User from DB: ' + JSON.stringify(res.data));
            this.props.renderPage();
         })
@@ -79,17 +76,31 @@ class EraList extends React.Component {
 
 
     render() {
-        const {songList, chooseSong} = this.props;
+        const {chooseSong, seventyList, eightyList, ninetyList} = this.props;
         const {currentUser, stringList} = this.state;
-
+        const {era} = this.props.match.params;
         if(currentUser === undefined){
             return (
               <div><h1>Loading...</h1></div>
             )
         }
+        let bgUrl;
+        let songList;
+        if(era === "70"){
+            bgUrl = 'seventy-bg-style';
+            songList = seventyList;
+        }else if(era ==="80"){
+            bgUrl = 'eighty-bg-style';
+            songList = eightyList;
+        }else{
+            bgUrl = 'ninety-bg-style';
+            songList = ninetyList;
+        }
+
         return(
-            <div className="container text-left">
-                <div className="mx-auto list-group">
+            <div className={`container mt-2 text-left ${bgUrl}`}>
+                <h1>The {era}'s</h1>
+                <div className="list-container">                
                     {
                         songList.map((song, index) => {
                             return (
@@ -100,8 +111,8 @@ class EraList extends React.Component {
                                         :
                                         <img onClick={() => this.likeSong(song.id)} src={unliked} className="like-button" alt="unlike button" />
                                     }
-                                    <button className="btn btn-transparent" onClick={() => 
-                                        chooseSong(song.id)}> <img src={song.album.cover_small} alt="artist" /> 
+                                    <button className="song-button" onClick={() => chooseSong(song.id)}> 
+                                        <img src={song.album.cover_small} alt="artist" /> 
                                         <b>{song.artist.name}</b> - {song.title} 
                                     </button>   
                                 </div>  

@@ -7,24 +7,17 @@ class SongDetails extends React.Component {
         const {song} = this.props;
 
         return (
-            <div className="container text-light text-center bg-dark border border">
-                <div className="row">
-                    <div className="col">
-                        <br/>
-                        <h2>{song.album.title}</h2>
-                        <img src={song.album.cover_medium} alt="album cover"/>
-                        <br/>
-                        <br/>
-                    </div>
-                    <div className="col mt-5">
-                        <br/>
-                        <h2>{song.title_short} </h2> 
+            <div className="bg-dark text-light">
+                <div className="media">
+                    <img className="align-self-center mr-3 cover-style" src={song.album.cover_medium} alt="Album Cover" />
+                    <div className="media-body">
+                        <h5 className="mt-2">{song.title_short}</h5>
                         <p> <img src={song.artist.picture_small} alt="artist" /> {song.artist.name}</p>
-                        <audio src={song.preview} controls autoPlay></audio>                       
-                    </div>
+                        <p><audio src={song.preview} controls autoPlay></audio></p>
+                    </div>                
                 </div>
-                
             </div>
+            
         )
     }
 }

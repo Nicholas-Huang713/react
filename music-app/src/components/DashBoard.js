@@ -65,9 +65,10 @@ class DashBoard extends React.Component {
     }
     render() {
         const {currentUser, detailList} = this.state;
+        const {chooseSong} = this.props;
         let firstName;
         // let list = [];
-        if(currentUser === undefined){
+        if(currentUser === undefined || detailList === undefined){
             firstName = "";
         } else{
             // list = detailList
@@ -75,39 +76,37 @@ class DashBoard extends React.Component {
         }
         
         return(
-            <div className="dashboard mt-4">
-                <h2>Welcome {firstName} </h2>
+            <div className="dashboard mt-2">
+                <div className="border-dark border-bottom mt-1 ml-3"><h2>Welcome {firstName}</h2></div>
+                
+               
                 <div className="row">
                    
-                
-                    <div className="col border border-dark"> 
-                        <div className="h-25" >
-                            <div className="border-dark border-bottom">
-                                <h3>My Playlist</h3>
-                            </div>
-                            {
-                                    detailList.map((song, index) => {
-                                        return (
-                                            <div key={song.id}>
-                                                <button className="btn btn-transparent"> <img src={song.album.cover_small} alt="artist" /> 
-                                                    <b>{song.artist.name}</b> - {song.title} 
-                                                </button>   
-                                            </div>  
-                                            )       
-                                    })
-                                }
-                                
-                                
-                                
-                                {/* {
-                                    detailList.map((song) =>{
-                                        return <p>{song.title}</p>
-                                    })
-                                } */}
+                    <div className="col">
+                        <div className="mt-2 ml-4">
+                            <h5>My Playlist</h5>
                         </div>
+                        <div className="dashboard-list-style">                                                     
+                            {
+                                detailList.map((song, index) => {
+                                    return (
+                                        <div key={song.id}>
+                                            <span>X</span>
+                                            <button className="btn btn-transparent song-button" onClick={() => chooseSong(song.id)}> 
+                                                <img src={song.album.cover_small} alt="artist" /> 
+                                                <b>{song.artist.name}</b> - {song.title} 
+                                            </button>   
+                                        </div>  
+                                        )       
+                                })
+                            }                                               
+                        </div>  
                     </div>
-                    <div className="col"></div>
-                    <div className="col"></div>
+                    <div className="col">
+                        <div className="mt-2 ml-4">
+                            <h5>Other User's Playlists</h5>
+                        </div> 
+                    </div>
                 </div>
                 
 

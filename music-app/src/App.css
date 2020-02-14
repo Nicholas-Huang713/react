@@ -110,14 +110,10 @@
   background-repeat: no-repeat;
   background-size: cover ;
   height: 450px;
-  /* opacity: 0.5; */
-  /* filter: blur(1px);
-  -webkit-filter: blur(1px); */
 }
 
 .song-button{
   background-color: lightslategrey;
-  /* width: 40%; */
   opacity: 0.8;
   border-radius: 20px;
 }

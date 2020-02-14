@@ -10,8 +10,7 @@ class EraList extends React.Component {
         super(props);
         this.state = {
             currentUser: undefined,
-            stringList: [],
-            // updatedUser: undefined
+            stringList: []
         }
         
     }
@@ -27,7 +26,11 @@ class EraList extends React.Component {
         })
         .then((res) => {
            console.log('User from DB: ' + JSON.stringify(res.data));
+           this.setState({
+               currentUser: res.data
+           })
            this.props.renderPage();
+        //    this.forceUpdate();
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -48,12 +51,10 @@ class EraList extends React.Component {
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-            const user = res.data;
-            this.pushToList(user[0].favelist);
+            const user = res.data;  
+            this.pushToList(user[0].favelist);          
             this.setState({currentUser: JSON.stringify(user)});
             console.log("State User: " + this.state.currentUser);
-        //    console.log('State User: ' + this.state.currentUser[0].firstname);
-        //    console.log('User: ' + JSON.stringify(res.data));
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -100,6 +101,7 @@ class EraList extends React.Component {
         return(
             <div className={`container mt-2 text-left ${bgUrl}`}>
                 <h1>The {era}'s</h1>
+                {stringList[0]}
                 <div className="list-container">                
                     {
                         songList.map((song, index) => {
@@ -116,7 +118,7 @@ class EraList extends React.Component {
                                         <b>{song.artist.name}</b> - {song.title} 
                                     </button>   
                                 </div>  
-                                )       
+                            )       
                         })
                     }
                 </div>

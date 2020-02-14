@@ -7,10 +7,10 @@ const bcrypt = require('bcryptjs');
 // const verifyToken = require('./verifyToken');
 
 //GET ALL USERS
-router.get('/', (req, res) => {
+router.get('/', verifyToken, (req, res) => {
     Users.find({})
         .then((data) => {
-            console.log('Data: ' + data);
+            console.log('All Users: ' + data);
             res.json(data);
          })
         .catch((error) => {
@@ -69,9 +69,7 @@ router.post('/login', async (req, res) => {
     const user = await Users.findOne({email: req.body.email});
     if(!user) return res.status(400).send('Email does not exist');
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if(!validPass) return res.status(400).send('Invalid password')
-
-    //Create and assign token
+    if(!validPass) return res.status(400).send('Invalid password');
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.header('auth-token', token).send(token);
 });
@@ -91,24 +89,29 @@ router.put('/like', verifyToken, (req, res) => {
             .catch((error) => {
                 console.log('Error: ' + error)
         });
-        // console.log("Result: " + JSON.stringify(result));
     })
     .catch(err => res.json(err));
 });
 
-// , (err, decoded) => {
-//         if(err){
-//             res.sendStatus(403);
-//         } else {
-            // Users.updateOne({_id: decoded}, {
-            //     $push: {favelist: req.body}
-            // })
-            // .then(result => {
-            //     res.json(result);
-            // })
-            // .catch(err => res.json(err));
-//         }
-//     })
+//UNLIKE SONG
+router.put('/unlike', verifyToken, (req, res) => {
+    const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
+    Users.findOneAndUpdate({_id: decodedId}, {
+        $pull: {favelist: req.body}
+    })
+    .then(result => {
+        Users.find({_id: decodedId})
+            .then((data) => {
+                console.log('Data: ' + data[0].favelist);
+                res.json(data);
+            })
+            .catch((error) => {
+                console.log('Error: ' + error)
+        });
+    })
+    .catch(err => res.json(err));
+});
+
 function verifyToken(req, res, next){
     //get auth header value 
     const bearerHeader = req.headers['authorization'];

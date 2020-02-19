@@ -3,6 +3,7 @@ import axios from 'axios';
 import {getJwt} from '../helpers/jwt';
 import '../App.css';
 import {withRouter} from 'react-router-dom';
+import FavoriteList from './FavoriteList';
 
 class DashBoard extends React.Component {
     constructor(props){
@@ -27,7 +28,7 @@ class DashBoard extends React.Component {
                 allUsers
             })
             // this.pushToList(user[0].favelist);
-           console.log('All Users: ' + JSON.stringify(allUsers));
+        //    console.log('All Users: ' + JSON.stringify(allUsers));
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -58,7 +59,7 @@ class DashBoard extends React.Component {
         for(let i = 0; i < list.length; i++){
             updatedList.push(Object.keys(list[i]));
         }
-        for(let i=0;i<updatedList.length;i++){
+        for(let i = 0; i < updatedList.length; i++){
             axios({
                 "method":"GET",
                 "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${updatedList[i]}`,
@@ -69,19 +70,16 @@ class DashBoard extends React.Component {
                 }
                 })
                 .then((response)=>{
-                   realList.push(response.data);
-                   this.setState({
-                    faveList: realList
-                })
+                    realList.push(response.data);
                 // console.log("Detail List: " + this.state.detailList);
                 })
                 .catch((error)=>{
-                  console.log(error)
+                  console.log(error);
             })   
         }
-        
+        this.setState({faveList: realList});
     }
-
+    
     unlikeSong = (id) => {
         const jwt = getJwt();
         axios({
@@ -91,19 +89,23 @@ class DashBoard extends React.Component {
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
+            // this.props.renderPage();
+            
+            // this.props.history.push('/dashboard');
             this.setState({
                 currentUser: res.data
             })
+            this.refreshFaveList();
+            // this.forceUpdate();
             console.log('User from DB: ' + JSON.stringify(res.data));
-            // this.props.history.push('/dashboard');
-            this.forceUpdate();
         })
         .catch((err) => {
             console.log('Error:' + err);
         });
-        
-        
-        // this.props.renderPage();
+    }
+    
+    choosePlaylist = (id) => {
+        this.props.history.push(`/dashboard/${id}`)
     }
 
     render() {
@@ -127,20 +129,12 @@ class DashBoard extends React.Component {
                         <div className="mt-2 ml-4">
                             <h5>My Playlist</h5>
                         </div>
-                        <div className="dashboard-list-style">                                                     
-                            {
-                                faveList.map((song, index) => {
-                                    return (
-                                        <div key={song.id}>
-                                            <span onClick={() => this.unlikeSong(song.id)}>X</span>
-                                            <button className="btn song-button" onClick={() => chooseSong(song.id)}> 
-                                                <img src={song.album.cover_small} alt="artist" /> 
-                                                <b>{song.artist.name}</b> - {song.title} 
-                                            </button>   
-                                        </div>  
-                                        )       
-                                })
-                            }                                               
+                        <div className="dashboard-list-style">   
+                            <FavoriteList id={currentUser} 
+                                          chooseSong={chooseSong} 
+                                          refresh={this.refreshFaveList}
+                                          unlikeSong={this.unlikeSong}
+                            />                                                  
                         </div>  
                     </div>
                     <div className="col">
@@ -151,7 +145,12 @@ class DashBoard extends React.Component {
                             {
                                 allUsers.map((user, index) => {
                                     return (
-                                        <div>{user.firstname}</div>
+                                        <div>
+                                            <button className="btn dashboard-song-button" onClick={() => this.choosePlaylist(user._id)}> 
+                                                {user.firstname}'s Playlist                     
+                                            </button>   
+                                            
+                                        </div>
                                     )
                                 })
                             }

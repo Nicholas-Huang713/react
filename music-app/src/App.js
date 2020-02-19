@@ -12,6 +12,7 @@ import AllMusic from './components/AllMusic';
 import axios from 'axios';
 import logo from './images/logo.png';
 import SongDetails from './components/SongDetails';
+import PlaylistDetails from './components/PlaylistDetails';
 
 class App extends React.Component {
   constructor(props){
@@ -164,7 +165,8 @@ class App extends React.Component {
               <Route path="/login" render={(props) => <Login {...props} renderPage={this.renderPage} />} />
               <Route path="/register" render={(props) => <Registration {...props} renderPage={this.renderPage} />} />
               <PrivateRoute>
-                <Route path='/dashboard' render={(props) => <DashBoard {...props} chooseSong={this.chooseSong} renderPage={this.renderPage} />} />
+                <Route exact path='/dashboard' render={(props) => <DashBoard {...props} chooseSong={this.chooseSong} renderPage={this.renderPage} />} />
+                <Route path='/dashboard/:id' component={PlaylistDetails} />
                 <Route exact path='/browse' component={AllMusic} />
                 <Route path='/browse/:era' render={(props) => 
                   <EraList {...props} seventyList={this.state.seventyList} eightyList={this.state.eightyList} ninetyList={this.state.ninetyList} renderPage={this.renderPage} chooseSong={this.chooseSong} />} />

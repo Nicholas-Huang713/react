@@ -7,7 +7,7 @@ class SongDetails extends React.Component {
         const {song} = this.props;
 
         return (
-            <div className="bg-dark text-light">
+            <div className="bg-dark text-light song-details-style">
                 <div className="media">
                     <img className="align-self-center mr-3 cover-style" src={song.album.cover_medium} alt="Album Cover" />
                     <div className="media-body">

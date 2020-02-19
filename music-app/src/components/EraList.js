@@ -78,13 +78,14 @@ class EraList extends React.Component {
 
     render() {
         const {chooseSong, seventyList, eightyList, ninetyList} = this.props;
-        const {currentUser, stringList} = this.state;
+        const {currentUser} = this.state;
         const {era} = this.props.match.params;
         if(currentUser === undefined){
             return (
               <div><h1>Loading...</h1></div>
             )
         }
+        const {stringList} = this.state;
         let bgUrl;
         let songList;
         if(era === "70"){
@@ -98,10 +99,9 @@ class EraList extends React.Component {
             songList = ninetyList;
         }
 
-        return(
+        return( 
             <div className={`container mt-2 text-left ${bgUrl}`}>
                 <h1>The {era}'s</h1>
-                {stringList[0]}
                 <div className="list-container">                
                     {
                         songList.map((song, index) => {

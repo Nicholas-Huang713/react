@@ -14,9 +14,21 @@ router.get('/', verifyToken, (req, res) => {
             res.json(data);
          })
         .catch((error) => {
-            console.log('Error: ' + error)
+            console.log('Error: ' + error);
     });
 });
+
+//GET USER PLAYLIST
+router.get('/playlist/:id', verifyToken, (req,res) => {
+    Users.find({_id: req.params.id})
+        .then((data) => {
+            console.log('Data: ' + data);
+            res.json(data);
+        })
+        .catch((error) => {
+            console.log('Error: ' + error);
+    });
+})
 
 //GET A USER
 router.get('/getuser', verifyToken, (req, res) => {
@@ -31,7 +43,7 @@ router.get('/getuser', verifyToken, (req, res) => {
                     res.json(data);
                 })
                 .catch((error) => {
-                    console.log('Error: ' + error)
+                    console.log('Error: ' + error);
             });
         }
     })

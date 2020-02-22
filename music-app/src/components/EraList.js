@@ -12,10 +12,12 @@ class EraList extends React.Component {
             currentUser: undefined,
             stringList: []
         }
-        
+        this.likeSong = this.likeSong.bind(this);
+        this.unlikeSong = this.unlikeSong.bind(this);
+
     }
 
-    likeSong(id){
+    likeSong = (id) => {
         const songId = id;
         const jwt = getJwt();
         axios({
@@ -30,10 +32,9 @@ class EraList extends React.Component {
                currentUser: res.data
            })
            this.props.renderPage();
-        //    this.forceUpdate();
         })
         .catch((err) => {
-            console.log('Error:' + err);
+            console.log('Error: ' + err);
         });
     }
 
@@ -52,40 +53,38 @@ class EraList extends React.Component {
         })
         .then((res) => {
             const user = res.data;  
-            this.pushToList(user[0].favelist);          
-            this.setState({currentUser: JSON.stringify(user)});
+            this.pushToList(user);          
+            // this.setState({currentUser: JSON.stringify(user)});
             console.log("State User: " + this.state.currentUser);
         })
         .catch((err) => {
             console.log('Error:' + err);
-        });
-        
+        }); 
     }
 
-    pushToList(list){
+    pushToList(user){
+        let list = user[0].favelist;
         let updatedList = [];
-        
         for(let i = 0; i < list.length; i++){
             updatedList.push(Object.keys(list[i]));
         }
         this.setState({
-            stringList: updatedList
+            stringList: updatedList, 
+            currentUser: user
         })
         console.log("String List: " + this.state.stringList);
     }
 
-
-
     render() {
         const {chooseSong, seventyList, eightyList, ninetyList} = this.props;
-        const {currentUser} = this.state;
+        const {currentUser, stringList} = this.state;
         const {era} = this.props.match.params;
-        if(currentUser === undefined){
+        if(currentUser === undefined && stringList === undefined){
             return (
               <div><h1>Loading...</h1></div>
             )
         }
-        const {stringList} = this.state;
+        
         let bgUrl;
         let songList;
         if(era === "70"){
@@ -98,17 +97,16 @@ class EraList extends React.Component {
             bgUrl = 'ninety-bg-style';
             songList = ninetyList;
         }
-
         return( 
             <div className={`container mt-2 text-left ${bgUrl}`}>
                 <h1>The {era}'s</h1>
                 <div className="list-container">                
                     {
-                        songList.map((song, index) => {
+                        songList.map((song) => {
                             return (
                                 <div className="list-style" key={song.id}>
                                     {
-                                        (stringList.includes(song.id)) ?
+                                        stringList.includes(song.id) ?
                                         <img onClick={() => this.unlikeSong(song.id)} src={liked} className="like-button" alt="like button" />
                                         :
                                         <img onClick={() => this.likeSong(song.id)} src={unliked} className="like-button" alt="unlike button" />

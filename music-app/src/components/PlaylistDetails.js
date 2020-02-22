@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css';
 import axios from 'axios';
 import {getJwt} from '../helpers/jwt';
+import {withRouter, Link} from 'react-router-dom';
 
 class PlaylistDetails extends React.Component {
     constructor(props){
@@ -16,14 +17,14 @@ class PlaylistDetails extends React.Component {
         const jwt = getJwt();
         const id = this.props.match.params.id;
         axios({
-            url: `/api/playlist/${id}`,
+            url: `/api/playlist/${id}`, 
             method: 'GET',
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
             const user = res.data;  
-            this.setState({currentUser: JSON.stringify(user)});
-            this.pushToList(user[0].favelist); 
+            // this.setState({currentUser: JSON.stringify(user)});
+            this.pushToList(user); 
             console.log("State User: " + this.state.currentUser);
         })
         .catch((err) => {
@@ -31,7 +32,8 @@ class PlaylistDetails extends React.Component {
         });
     }
    
-    pushToList(list){
+    pushToList(user){
+        let list = user[0].favelist;
         let updatedList = [];
         let realList = [];
         for(let i = 0; i < list.length; i++){
@@ -46,36 +48,52 @@ class PlaylistDetails extends React.Component {
                 "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
                 "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
                 }
-                })
-                .then((response)=>{
-                    realList.push(response.data);
-                    this.setState({faveList: realList});
-                // console.log("Detail List: " + this.state.detailList);
-                })
-                .catch((error)=>{
-                  console.log(error);
+            })
+            .then((response)=>{
+                realList.push(response.data);
+                this.setState({faveList: realList});
+            })
+            .catch((error)=>{
+                console.log(error);
             })   
         }
-        
+        this.setState({currentUser: user});
     }
+
     render() {
         const {currentUser, faveList} = this.state;
+        const {chooseSong} = this.props;
         let name;
         if(currentUser === undefined){
             name = "";
-        }
+        } 
         else{
             name = currentUser[0].firstname;
         }
         return (
-            <div>
-                <h3>{name}'s Playlist</h3> 
+            <div className="mt-3">
+                <div className="row">
+                    <div className="col text-center"><h3>{name}'s Playlist</h3></div>
+                    <div className="col text-center"><Link to="/dashboard"><button className="btn-sm btn-outline-dark">Back</button></Link></div>
+                </div>
+                 
                 <ul>
                     {
                         faveList.map((song) => {
-                            return <li>{song.artist.name}</li>
+                            return (
+                                <div className="" key={song.id}>
+                                        <button className="btn dashboard-song-button" onClick={() => chooseSong(song.id)}> 
+                                            <div className="media"> 
+                                                <img src={song.album.cover_small} alt="artist" />
+                                                <div className="media-body ml-3 mt-3">
+                                                    <b>{song.artist.name}</b> - {song.title} 
+                                                </div>
+                                            </div>                                               
+                                        </button>   
+                                </div>  
+                            )       
                         })
-                    }
+                    }        
                 </ul>
                 
                 
@@ -84,4 +102,4 @@ class PlaylistDetails extends React.Component {
     }
 }    
 
-export default PlaylistDetails;
+export default withRouter(PlaylistDetails);

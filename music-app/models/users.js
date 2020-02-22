@@ -16,6 +16,7 @@ const UserSchema = new Schema({
     lastname: String,
     email: String,
     password: String,
+    bgurl: String,
     favelist: [],
     date: {
         type: String,

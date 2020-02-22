@@ -61,6 +61,38 @@
   box-shadow: 3px 3px 3px grey;
 }
 
+.dashboard1{
+  height: 450px;
+  width: 100%;
+  background-image: url('./images/stereo.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: 3px 3px 3px grey;
+}
+.dashboard2{
+  height: 450px;
+  width: 100%;
+  background-image: url('./images/hiphopcrowd1.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: 3px 3px 3px grey;
+}
+.dashboard3{
+  height: 450px;
+  width: 100%;
+  background-image: url('./images/hiphopcrowd2.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: 3px 3px 3px grey;
+}
+.dashboard4{
+  height: 450px;
+  width: 100%;
+  background-image: url('./images/70s.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: 3px 3px 3px grey;
+}
 .dashboard-list-style{
   margin-left: 20px;
   height: 350px;

@@ -4,10 +4,9 @@ const Users = require('../models/users');
 const jwt = require('jsonwebtoken');
 const {registerValidation, loginValidation} = require('../validation');
 const bcrypt = require('bcryptjs');
-// const verifyToken = require('./verifyToken');
 
 //GET ALL USERS
-router.get('/', verifyToken, (req, res) => {
+router.get('/', (req, res) => {
     Users.find({})
         .then((data) => {
             console.log('All Users: ' + data);
@@ -16,6 +15,23 @@ router.get('/', verifyToken, (req, res) => {
         .catch((error) => {
             console.log('Error: ' + error);
     });
+});
+
+//CHOOSE BACKGROUND THEME
+router.put('/theme', verifyToken, (req, res) => {
+    const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
+    Users.findByIdAndUpdate({_id: decodedId}, { $set: {bgurl: req.body}})
+    .then(result => {
+        Users.find({_id: decodedId})
+        .then((data) => {
+            console.log('Updated User in DB: ' + data);
+            res.json(data);
+        })
+        .catch((error) => {
+            console.log('Error: ' + error);
+        });
+    })
+    .catch(err => res.json(err));
 });
 
 //GET USER PLAYLIST
@@ -32,7 +48,6 @@ router.get('/playlist/:id', verifyToken, (req,res) => {
 
 //GET A USER
 router.get('/getuser', verifyToken, (req, res) => {
-    // res.json("Decoded Token: " + req.token);
     jwt.verify(req.token,  process.env.TOKEN_SECRET, (err, decoded) => {
         if(err){
             res.sendStatus(403);
@@ -63,7 +78,8 @@ router.post('/register', async (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email, 
-        password: hashedPassword
+        password: hashedPassword,
+        bgurl: "dashboard"
     });
     try{
         await user.save();

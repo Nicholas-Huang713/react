@@ -118,18 +118,19 @@ class DashBoard extends React.Component {
         event.preventDefault();
         const jwt = getJwt();
         const {bgUrl} = this.state;
+        // const url = {bgurl: bgUrl}
         console.log("state bgUrl: " + bgUrl);
         axios({
-            url: '/api/theme',
+            url: `/api/theme/${bgUrl}`,
             method: 'PUT',
-            data: bgUrl,
+            // data: url,
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-            // const user = res.data;
-            // this.setState({
-            //     bgUrl: user[0].bgurl
-            // })
+            const user = res.data;
+            this.setState({
+                bgUrl: user[0].bgurl
+            })
             console.log("updated User: " + res.data);
         })
         .catch((err) => {
@@ -170,7 +171,7 @@ class DashBoard extends React.Component {
                                     <option value="dashboard3">3</option>
                                     <option value="dashboard4">4</option>
                                 </select>
-                                <button>Save</button>
+                                <input type="submit" value="Save" />
                             </form>
                         </div>
                         </div>

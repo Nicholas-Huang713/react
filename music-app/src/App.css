@@ -22,7 +22,7 @@
   background-image: url('./images/stereo.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  height: 450px;
+  height: 480px;
   opacity: 0.6;
   box-shadow: 3px 3px 3px grey;
 }
@@ -32,28 +32,36 @@
   padding-right: 10px;
 }
 
-.logform-style{
+.logform-container{
   background-image: url('./images/hiphopcrowd1.jpg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  height: 450px;
-  /* width: 50%; */
+  height: 480px;
+} 
+
+.logform-style {
+  width: 50%; 
   margin-left: 25%;
-  margin-top: 2%;
+  padding-top: 3%; 
+  color: #026e81;
+}
+
+.regform-container{
+  background-image: url('./images/mic.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 480px;
 } 
 
 .regform-style{
-  background-image: url('./images/hiphopcrowd2.jpg');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  height: 450px;
-  width: 50%;
+  width: 50%; 
   margin-left: 25%;
-  margin-top: 2%;
+  padding-top: 2%; 
+  color: #026e81;
 }
 
 .dashboard{
-  height: 450px;
+  height: 480px;
   width: 100%;
   background-image: url('./images/records.png');
   background-repeat: no-repeat;
@@ -62,7 +70,7 @@
 }
 
 .dashboard1{
-  height: 450px;
+  height: 480px;
   width: 100%;
   background-image: url('./images/stereo.png');
   background-repeat: no-repeat;
@@ -70,7 +78,7 @@
   box-shadow: 3px 3px 3px grey;
 }
 .dashboard2{
-  height: 450px;
+  height: 480px;
   width: 100%;
   background-image: url('./images/hiphopcrowd1.jpg');
   background-repeat: no-repeat;
@@ -78,7 +86,7 @@
   box-shadow: 3px 3px 3px grey;
 }
 .dashboard3{
-  height: 450px;
+  height: 480px;
   width: 100%;
   background-image: url('./images/hiphopcrowd2.jpg');
   background-repeat: no-repeat;
@@ -86,7 +94,7 @@
   box-shadow: 3px 3px 3px grey;
 }
 .dashboard4{
-  height: 450px;
+  height: 480px;
   width: 100%;
   background-image: url('./images/70s.jpg');
   background-repeat: no-repeat;
@@ -128,7 +136,7 @@
   background-image: url('./images/turntable.png');
   background-repeat: no-repeat;
   background-size: cover ;
-  height: 450px;
+  height: 480px;
   padding-top: 100px;
   /* opacity: 0.5; */
   box-shadow: 3px 3px 3px grey;
@@ -138,7 +146,7 @@
   background-image: url('./images/70sllcool.jpg');
   background-repeat: no-repeat;
   background-size: cover ;
-  height: 450px;
+  height: 480px;
   /* opacity: 0.5; */
   box-shadow: 3px 3px 3px grey;
 }
@@ -146,7 +154,7 @@
   background-image: url('./images/80s.jpg');
   background-repeat: no-repeat;
   background-size: cover ;
-  height: 450px;
+  height: 480px;
   box-shadow: 3px 3px 3px grey;
   /* opacity: 0.5; */
 }
@@ -154,7 +162,7 @@
   background-image: url('./images/90s.jpg');
   background-repeat: no-repeat;
   background-size: cover ;
-  height: 450px;
+  height: 480px;
   box-shadow: 3px 3px 3px grey;
 }
 

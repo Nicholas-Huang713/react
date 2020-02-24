@@ -18,14 +18,14 @@ router.get('/', (req, res) => {
 });
 
 //CHOOSE BACKGROUND THEME
-router.put('/theme', verifyToken, (req, res) => {
+router.put('/theme/:bgurl', verifyToken, (req, res) => {
     const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
-    Users.findByIdAndUpdate({_id: decodedId}, { $set: {bgurl: req.body}})
-    .then(result => {
-        Users.find({_id: decodedId})
+    Users.findByIdAndUpdate({_id: decodedId}, {bgurl: req.params.bgurl})
+    .then(() => {
+        Users.findOne({_id: decodedId})
         .then((data) => {
-            console.log('Updated User in DB: ' + data);
-            res.json(data);
+            // console.log('Updated User in DB: ' + data);
+            res.send(data);
         })
         .catch((error) => {
             console.log('Error: ' + error);

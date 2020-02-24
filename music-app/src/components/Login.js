@@ -59,10 +59,11 @@ class Login extends React.Component {
         const {errorMsg} = this.state;
         return (
 
-          <div className="container mt-5">
-            <h3 className="text-center">Login Here</h3>
-            <p className="text-danger text-center text-uppercase font-italic">{errorMsg}</p>
+          <div className="container logform-container mt-3">
+            
             <form className="logform-style" onSubmit={this.handleLogin}>
+                <h3 className="text-center">Login Here</h3>
+                 <p className="text-danger text-center text-uppercase font-italic">{errorMsg}</p>
                 <div className="form-group">
                     <label>Email address</label>
                     <input type="text" 
@@ -81,7 +82,7 @@ class Login extends React.Component {
                             onChange={this.handleChange}                            
                         />
                 </div>
-                <button>Login</button>
+                <button className="btn btn-dark">Login</button>
             </form>
           </div>  
         )

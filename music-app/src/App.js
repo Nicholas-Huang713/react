@@ -149,15 +149,15 @@ class App extends React.Component {
         <div className="container">
           <Router>
             
-              <div className="page_header border-dark border-bottom">
-                  <div className="header_item">
-                    <Link to="/"><img src={logo} className="logo" alt="logo"/></Link>
-                  </div>
-                  <div className="header_item">
-                    <h1>Hip Hop History</h1>
-                    <p>Listen to the evolution of Hip Hop's sound.</p>
-                  </div>
-              </div>
+            <div className="page_header border-dark border-bottom">
+                <div className="header_item">
+                  <Link to="/"><img src={logo} className="logo" alt="logo"/></Link>
+                </div>
+                <div className="header_item">
+                  <h1>Hip Hop History</h1>
+                  <p>Listen to the evolution of Hip Hop's sound.</p>
+                </div>
+            </div>
             
             <NavBar handleDiscover={this.handleDiscover} resetState={this.resetState}/>
             <Switch>
@@ -177,7 +177,7 @@ class App extends React.Component {
 
         </div> 
         {
-          (currentSong !== undefined && localStorage.getItem("token")) ?
+          (currentSong && localStorage.getItem("token")) ?
            <SongDetails song={currentSong}/> 
           :
            <span></span>   

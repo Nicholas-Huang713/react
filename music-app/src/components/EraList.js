@@ -10,13 +10,43 @@ class EraList extends React.Component {
         super(props);
         this.state = {
             currentUser: undefined,
-            stringList: []
+            stringList: undefined
         }
         this.likeSong = this.likeSong.bind(this);
         this.unlikeSong = this.unlikeSong.bind(this);
 
     }
 
+    componentDidMount() {
+        const jwt = getJwt();
+        axios({
+            url: '/api/getuser',
+            method: 'GET',
+            headers: {'Authorization' : `Bearer ${jwt}`}
+        })
+        .then((res) => {
+            const user = res.data;  
+            this.pushToList(user);          
+            console.log("State User: " + this.state.currentUser);
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        }); 
+    }
+
+    pushToList(user){
+        let list = user[0].favelist;
+        let updatedList = [];
+        for(let i = 0; i < list.length; i++){
+            updatedList.push(parseInt(Object.keys(list[i])));
+        }
+        this.setState({
+            stringList: updatedList, 
+            currentUser: user
+        })
+        console.log("String List: " + this.state.stringList);
+    }
+    
     likeSong = (id) => {
         const songId = id;
         const jwt = getJwt();
@@ -44,36 +74,7 @@ class EraList extends React.Component {
         })
     }
 
-    componentDidMount() {
-        const jwt = getJwt();
-        axios({
-            url: '/api/getuser',
-            method: 'GET',
-            headers: {'Authorization' : `Bearer ${jwt}`}
-        })
-        .then((res) => {
-            const user = res.data;  
-            this.pushToList(user);          
-            // this.setState({currentUser: JSON.stringify(user)});
-            console.log("State User: " + this.state.currentUser);
-        })
-        .catch((err) => {
-            console.log('Error:' + err);
-        }); 
-    }
-
-    pushToList(user){
-        let list = user[0].favelist;
-        let updatedList = [];
-        for(let i = 0; i < list.length; i++){
-            updatedList.push(Object.keys(list[i]));
-        }
-        this.setState({
-            stringList: updatedList, 
-            currentUser: user
-        })
-        console.log("String List: " + this.state.stringList);
-    }
+    
 
     render() {
         const {chooseSong, seventyList, eightyList, ninetyList} = this.props;
@@ -84,7 +85,6 @@ class EraList extends React.Component {
               <div><h1>Loading...</h1></div>
             )
         }
-        
         let bgUrl;
         let songList;
         if(era === "70"){
@@ -106,7 +106,7 @@ class EraList extends React.Component {
                             return (
                                 <div className="list-style" key={song.id}>
                                     {
-                                        stringList.includes(song.id) ?
+                                        stringList.includes(parseInt(song.id)) ?
                                         <img onClick={() => this.unlikeSong(song.id)} src={liked} className="like-button" alt="like button" />
                                         :
                                         <img onClick={() => this.likeSong(song.id)} src={unliked} className="like-button" alt="unlike button" />

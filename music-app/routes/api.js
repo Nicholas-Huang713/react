@@ -22,13 +22,13 @@ router.put('/theme/:bgurl', verifyToken, (req, res) => {
     const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
     Users.findByIdAndUpdate({_id: decodedId}, {bgurl: req.params.bgurl})
     .then(() => {
-        Users.findOne({_id: decodedId})
+        Users.find({_id: decodedId})
         .then((data) => {
             // console.log('Updated User in DB: ' + data);
-            res.send(data);
+            res.json(data);
         })
         .catch((error) => {
-            console.log('Error: ' + error);
+            res.json(error);
         });
     })
     .catch(err => res.json(err));

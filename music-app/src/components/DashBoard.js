@@ -8,7 +8,7 @@ import FavoriteList from './FavoriteList';
 class DashBoard extends React.Component {
     constructor(props){
         super(props);
-        this.state ={
+        this.state = {
             currentUser: undefined,
             faveList: [],
             allUsers: [],
@@ -111,7 +111,7 @@ class DashBoard extends React.Component {
     }
     
     choosePlaylist = (id) => {
-        this.props.history.push(`/dashboard/${id}`)
+        this.props.history.push(`/dashboard/${id}`);
     }
 
     chooseTheme = (event) => {
@@ -123,15 +123,15 @@ class DashBoard extends React.Component {
         axios({
             url: `/api/theme/${bgUrl}`,
             method: 'PUT',
-            // data: url,
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
             const user = res.data;
-            this.setState({
-                bgUrl: user[0].bgurl
-            })
-            console.log("updated User: " + res.data);
+            console.log("updated User: " + user);
+            // this.setState({
+            //     bgUrl: user[0].bgurl
+            // })
+            
         })
         .catch((err) => {
             console.log('Error:' + err);

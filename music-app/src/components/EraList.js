@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import '../App.css';
+import {getJwt} from '../helpers/jwt';
 import unliked from './images/unliked.png';
 import liked from './images/liked.png';
-import {getJwt} from '../helpers/jwt';
 
 class EraList extends React.Component {
     constructor(props){
@@ -14,10 +14,13 @@ class EraList extends React.Component {
         }
         this.likeSong = this.likeSong.bind(this);
         this.unlikeSong = this.unlikeSong.bind(this);
-
+        this.retrieveUser = this.retrieveUser.bind(this);
     }
 
     componentDidMount() {
+        this.retrieveUser();
+    }
+    retrieveUser(){
         const jwt = getJwt();
         axios({
             url: '/api/getuser',
@@ -46,7 +49,7 @@ class EraList extends React.Component {
         })
         console.log("String List: " + this.state.stringList);
     }
-    
+
     likeSong = (id) => {
         const songId = id;
         const jwt = getJwt();
@@ -57,23 +60,29 @@ class EraList extends React.Component {
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-           console.log('User from DB: ' + JSON.stringify(res.data));
-           this.setState({
-               currentUser: res.data
-           })
-           this.props.renderPage();
+            console.log('User from DB: ' + JSON.stringify(res.data));
+            this.retrieveUser();
         })
         .catch((err) => {
             console.log('Error: ' + err);
         });
     }
 
-    unlikeSong = () => {
-        this.setState({
-            likeBtnClick: false
+    unlikeSong = (id) => {
+        const jwt = getJwt();
+        axios({
+            url: '/api/unlike',
+            method: 'PUT',
+            data: JSON.stringify(id),
+            headers: {'Authorization' : `Bearer ${jwt}`}
         })
+        .then((res) => {
+            this.retrieveUser();
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        });
     }
-
     
 
     render() {

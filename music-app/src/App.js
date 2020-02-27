@@ -166,7 +166,7 @@ class App extends React.Component {
               <Route path="/register" render={(props) => <Registration {...props} renderPage={this.renderPage} />} />
               <PrivateRoute>
                 <Route exact path='/dashboard' render={(props) => <DashBoard {...props} chooseSong={this.chooseSong} renderPage={this.renderPage} />} />
-                <Route path='/dashboard/:id' component={PlaylistDetails} chooseSong={this.chooseSong} />
+                <Route path='/dashboard/:id' render={(props) => <PlaylistDetails {...props} chooseSong={this.chooseSong}/>} />
                 <Route exact path='/browse' component={AllMusic} />
                 <Route path='/browse/:era' render={(props) => 
                   <EraList {...props} seventyList={this.state.seventyList} eightyList={this.state.eightyList} ninetyList={this.state.ninetyList} renderPage={this.renderPage} chooseSong={this.chooseSong} />} 

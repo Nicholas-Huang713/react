@@ -25,11 +25,7 @@ class DashBoard extends React.Component {
         })
         .then((res) => {
             const allUsers = res.data;
-            this.setState({
-                allUsers
-            })
-            // this.pushToList(user[0].favelist);
-        //    console.log('All Users: ' + JSON.stringify(allUsers));
+            this.setState({allUsers})
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -41,22 +37,23 @@ class DashBoard extends React.Component {
         })
         .then((res) => {
             const user = res.data;
-            if(!user[0].bgurl){
-                this.setState({currentUser: user, bgUrl: "dashboard" });
-            }else{
-                this.setState({
-                    currentUser: user, 
-                    bgUrl: user[0].bgurl
-                });
-                this.pushToList(user[0].favelist);
-            }
-        //    console.log('Dashboard State User: ' + this.state.currentUser[0].favelist);
-            console.log('User: ' + JSON.stringify(user));
+            const randomBackground = this.randomBackground();
+            this.setState({
+                currentUser: user, 
+                bgUrl: randomBackground
+            });
+            this.pushToList(user[0].favelist);
         })
         .catch((err) => {
             console.log('Error:' + err);
         });
         
+    }
+
+    randomBackground() {
+        const backgroundList = ['dashboard1','dashboard2','dashboard3','dashboard4' ];
+        const randNum = Math.floor(Math.random() * 4);
+        return backgroundList[randNum];
     }
 
     pushToList(list){
@@ -77,7 +74,6 @@ class DashBoard extends React.Component {
                 })
                 .then((response)=>{
                     realList.push(response.data);
-                // console.log("Detail List: " + this.state.detailList);
                 })
                 .catch((error)=>{
                   console.log(error);
@@ -95,15 +91,10 @@ class DashBoard extends React.Component {
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-            // this.props.renderPage();
-            
-            // this.props.history.push('/dashboard');
             this.setState({
                 currentUser: res.data
             })
             this.refreshFaveList();
-            // this.forceUpdate();
-            console.log('User from DB: ' + JSON.stringify(res.data));
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -118,7 +109,6 @@ class DashBoard extends React.Component {
         event.preventDefault();
         const jwt = getJwt();
         const {bgUrl} = this.state;
-        // const url = {bgurl: bgUrl}
         console.log("state bgUrl: " + bgUrl);
         axios({
             url: `/api/theme/${bgUrl}`,
@@ -127,11 +117,7 @@ class DashBoard extends React.Component {
         })
         .then((res) => {
             const user = res.data;
-            console.log("updated User: " + user);
-            // this.setState({
-            //     bgUrl: user[0].bgurl
-            // })
-            
+            console.log("updated User: " + user);            
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -159,7 +145,7 @@ class DashBoard extends React.Component {
                 <div className="border-dark border-bottom mt-1 ml-3 ">
                     <div className="row">
                         <div className="col">
-                            <h2>Welcome {firstName}</h2>
+                            <h2>Welcome {firstName}</h2> 
                         </div>
                         <div className="col">
                         <div className="form-group">

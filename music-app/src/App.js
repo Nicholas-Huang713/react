@@ -25,15 +25,7 @@ class App extends React.Component {
       currentSong: undefined
     }
   }
-  resetState = () => {
-    this.setState({
-      currentSong: undefined
-    })
-    this.renderPage();
-  }
-  renderPage = () => {
-    this.forceUpdate();
-  }
+  
 
   componentDidMount() {
     const seventyIds = [3824597, 3824607, 131224316, 458844802, 65724608, 409962402];
@@ -121,9 +113,7 @@ class App extends React.Component {
         }
         })
         .then((response) =>{
-          this.setState({
-              currentSong : response.data
-          })
+          this.setState({currentSong : response.data})
         })
         .catch((error)=>{
           console.log(error)
@@ -139,6 +129,15 @@ class App extends React.Component {
         hasClicked: true,
         currentSong: randSong
     })
+  }
+
+  resetState = () => {
+    this.setState({ currentSong: undefined });
+    this.renderPage();
+  }
+  
+  renderPage = () => {
+    this.forceUpdate();
   }
 
   render() {

@@ -67,12 +67,13 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 3px 3px 3px grey;
+  padding-top: 5px;
 }
 
 .dashboard1{
   height: 480px;
   width: 100%;
-  background-image: url('./images/stereo.png');
+  background-image: url('./images/djblue.jpg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 3px 3px 3px grey;
@@ -80,7 +81,7 @@
 .dashboard2{
   height: 480px;
   width: 100%;
-  background-image: url('./images/hiphopcrowd1.jpg');
+  background-image: url('./images/audience.jpg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 3px 3px 3px grey;
@@ -88,7 +89,7 @@
 .dashboard3{
   height: 480px;
   width: 100%;
-  background-image: url('./images/hiphopcrowd2.jpg');
+  background-image: url('./images/mic2.jpg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 3px 3px 3px grey;
@@ -96,7 +97,7 @@
 .dashboard4{
   height: 480px;
   width: 100%;
-  background-image: url('./images/70s.jpg');
+  background-image: url('./images/turntable2.jpg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 3px 3px 3px grey;
@@ -165,6 +166,15 @@
   height: 480px;
   box-shadow: 3px 3px 3px grey;
 }
+
+.userlist-container{
+  background-image: url('./images/hiphopcrowd1.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 480px;
+  padding-top: 20px;
+  margin-top: 10px;
+} 
 
 .song-button{
   background-color: lightslategrey;

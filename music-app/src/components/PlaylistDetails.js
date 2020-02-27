@@ -71,30 +71,37 @@ class PlaylistDetails extends React.Component {
             name = currentUser[0].firstname;
         }
         return (
-            <div className="mt-3">
+            <div className="userlist-container">
                 <div className="row">
                     <div className="col text-center"><h3>{name}'s Playlist</h3></div>
                     <div className="col text-center"><Link to="/dashboard"><button className="btn-sm btn-outline-dark">Back</button></Link></div>
                 </div>
-                 
-                <ul>
-                    {
-                        faveList.map((song) => {
-                            return (
-                                <div className="" key={song.id}>
-                                        <button className="btn dashboard-song-button" onClick={() => chooseSong(song.id)}> 
-                                            <div className="media"> 
-                                                <img src={song.album.cover_small} alt="artist" />
-                                                <div className="media-body ml-3 mt-3">
-                                                    <b>{song.artist.name}</b> - {song.title} 
-                                                </div>
-                                            </div>                                               
-                                        </button>   
-                                </div>  
-                            )       
-                        })
-                    }        
-                </ul>
+                 <div className="row">
+                     <div className="col">
+                         <div className="list-container">
+                            <ul>
+                                {
+                                    faveList.map((song) => {
+                                        return (
+                                            <div className="" key={song.id}>
+                                                    <button className="btn dashboard-song-button" onClick={() => chooseSong(song.id)}> 
+                                                        <div className="media"> 
+                                                            <img src={song.album.cover_small} alt="artist" />
+                                                            <div className="media-body ml-3 mt-3">
+                                                                <b>{song.artist.name}</b> - {song.title} 
+                                                            </div>
+                                                        </div>                                               
+                                                    </button>   
+                                            </div>  
+                                        )       
+                                    })
+                                }        
+                            </ul>
+                        </div>
+                     </div>
+                     <div className="col"></div>
+                 </div>
+                
                 
                 
             </div>

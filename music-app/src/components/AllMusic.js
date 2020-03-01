@@ -3,8 +3,6 @@ import {getJwt} from '../helpers/jwt';
 import '../App.css';
 
 class AllMusic extends React.Component {
-    
-  
     componentDidMount() {
         const jwt = getJwt();
         if(!jwt) this.props.history.push('/login');

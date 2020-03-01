@@ -8,13 +8,8 @@ const bcrypt = require('bcryptjs');
 //GET ALL USERS
 router.get('/', (req, res) => {
     Users.find({})
-        .then((data) => {
-            console.log('All Users: ' + data);
-            res.json(data);
-         })
-        .catch((error) => {
-            console.log('Error: ' + error);
-    });
+    .then((data) => {res.json(data);})
+    .catch((error) => {console.log('Error: ' + error);});
 });
 
 //CHOOSE BACKGROUND THEME
@@ -23,13 +18,8 @@ router.put('/theme/:bgurl', verifyToken, (req, res) => {
     Users.findByIdAndUpdate({_id: decodedId}, { $set: {bgurl: req.params.bgurl}})
     .then(() => {
         Users.find({_id: decodedId})
-        .then((data) => {
-            // console.log('Updated User in DB: ' + data);
-            res.json(data);
-        })
-        .catch((error) => {
-            res.json(error);
-        });
+        .then((data) => {res.json(data);})
+        .catch((error) => {res.json(error);});
     })
     .catch(err => res.json(err));
 });
@@ -37,13 +27,8 @@ router.put('/theme/:bgurl', verifyToken, (req, res) => {
 //GET USER PLAYLIST
 router.get('/playlist/:id', verifyToken, (req,res) => {
     Users.find({_id: req.params.id})
-        .then((data) => {
-            console.log('Data: ' + data);
-            res.json(data);
-        })
-        .catch((error) => {
-            console.log('Error: ' + error);
-    });
+    .then((data) => {res.json(data);})
+    .catch((error) => {console.log('Error: ' + error)});
 })
 
 //GET A USER
@@ -53,13 +38,8 @@ router.get('/getuser', verifyToken, (req, res) => {
             res.sendStatus(403);
         } else {
             Users.find({_id: decoded})
-                .then((data) => {
-                    console.log('Data: ' + data);
-                    res.json(data);
-                })
-                .catch((error) => {
-                    console.log('Error: ' + error);
-            });
+            .then((data) => {res.json(data)})
+            .catch((error) => {console.log('Error: ' + error)});
         }
     })
 });
@@ -70,16 +50,13 @@ router.post('/register', async (req, res) => {
     if(error) return res.status(400).json(error.details[0].message);
     const emailExist = await Users.findOne({email: req.body.email});
     if(emailExist) return res.status(400).json('Email already exists');
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
     const user = new Users({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email, 
-        password: hashedPassword,
-        bgurl: "dashboard"
+        password: hashedPassword
     });
     try{
         await user.save();
@@ -105,18 +82,11 @@ router.post('/login', async (req, res) => {
 //LIKE SONG
 router.put('/like', verifyToken, (req, res) => {
     const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
-    Users.updateOne({_id: decodedId}, {
-        $push: {favelist: req.body}
-    })
-    .then(result => {
+    Users.updateOne({_id: decodedId}, {$push: {favelist: req.body}})
+    .then(() => {
         Users.find({_id: decodedId})
-            .then((data) => {
-                console.log('Data: ' + data[0].favelist);
-                res.json(data);
-            })
-            .catch((error) => {
-                console.log('Error: ' + error)
-        });
+        .then((data) => {res.json(data);})
+        .catch((error) => {console.log('Error: ' + error)});
     })
     .catch(err => res.json(err));
 });
@@ -124,40 +94,25 @@ router.put('/like', verifyToken, (req, res) => {
 //UNLIKE SONG
 router.put('/unlike', verifyToken, (req, res) => {
     const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
-    Users.findOneAndUpdate({_id: decodedId}, {
-        $pull: {favelist: req.body}
-    })
-    .then(result => {
+    Users.findOneAndUpdate({_id: decodedId}, {$pull: {favelist: req.body}})
+    .then(() => {
         Users.find({_id: decodedId})
-            .then((data) => {
-                console.log('Data: ' + data[0].favelist);
-                res.json(data);
-            })
-            .catch((error) => {
-                console.log('Error: ' + error)
-        });
+        .then((data) => {res.json(data)})
+        .catch((error) => {console.log('Error: ' + error)});
     })
     .catch(err => res.json(err));
 });
 
 function verifyToken(req, res, next){
-    //get auth header value 
     const bearerHeader = req.headers['authorization'];
-    //check if bearer is undefined
     if(typeof bearerHeader !== 'undefined'){
-        //split at space
         const bearer = bearerHeader.split(' ');
-        //get token from array
         const bearerToken = bearer[1];
-        //set token
         req.token = bearerToken;
-        //next middleware
         next();
     } else {
-        //forbidden
         res.sendStatus(403);
     }
 }
-
 
 module.exports = router;

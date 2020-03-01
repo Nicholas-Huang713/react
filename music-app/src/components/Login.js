@@ -10,15 +10,14 @@ class Login extends React.Component {
             password: "",
             errorMsg: ""
         }
-        
     }
+
     handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        this.setState({ 
-            [name] : value 
-        })
+        this.setState({ [name] : value });
     }
+
     handleLogin = (event) => {
         const {email, password} = this.state;
         event.preventDefault();
@@ -32,20 +31,14 @@ class Login extends React.Component {
             data: currentUser 
         })
         .then((res) => {
-            console.log('User logged in: ', currentUser);
             localStorage.setItem('token', res.data);
-            // localStorage.setItem('email', email);
             this.props.history.push('/dashboard');
             this.props.renderPage();  
         })
         .catch((err) => {
-            this.setState({
-                errorMsg: err.response.data
-            })
-            console.log('Error:' + err.response.data);
+            this.setState({errorMsg: err.response.data});
         });        
     }
-   
 
     componentWillUnmount() {
         this.setState({
@@ -58,9 +51,7 @@ class Login extends React.Component {
     render() {
         const {errorMsg} = this.state;
         return (
-
           <div className="container logform-container mt-3">
-            
             <form className="logform-style" onSubmit={this.handleLogin}>
                 <h3 className="text-center">Login Here</h3>
                  <p className="text-danger text-center text-uppercase font-italic">{errorMsg}</p>
@@ -71,7 +62,7 @@ class Login extends React.Component {
                             name="email"                            
                             value={this.state.email}
                             onChange={this.handleChange}                            
-                        />
+                    />
                 </div>
                 <div className="form-group">
                     <label>Password</label>
@@ -88,5 +79,4 @@ class Login extends React.Component {
         )
     }
 }
-
 export default Login; 

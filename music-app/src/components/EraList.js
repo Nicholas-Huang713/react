@@ -12,14 +12,12 @@ class EraList extends React.Component {
             currentUser: undefined,
             stringList: undefined
         }
-        this.likeSong = this.likeSong.bind(this);
-        this.unlikeSong = this.unlikeSong.bind(this);
-        this.retrieveUser = this.retrieveUser.bind(this);
     }
 
     componentDidMount() {
         this.retrieveUser();
     }
+
     retrieveUser(){
         const jwt = getJwt();
         axios({
@@ -30,7 +28,6 @@ class EraList extends React.Component {
         .then((res) => {
             const user = res.data;  
             this.pushToList(user);          
-            console.log("State User: " + this.state.currentUser);
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -47,7 +44,6 @@ class EraList extends React.Component {
             stringList: updatedList, 
             currentUser: user
         })
-        console.log("String List: " + this.state.stringList);
     }
 
     likeSong = (id) => {
@@ -59,8 +55,7 @@ class EraList extends React.Component {
             data: JSON.stringify(songId),
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
-        .then((res) => {
-            console.log('User from DB: ' + JSON.stringify(res.data));
+        .then(() => {
             this.retrieveUser();
         })
         .catch((err) => {
@@ -76,7 +71,7 @@ class EraList extends React.Component {
             data: JSON.stringify(id),
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
-        .then((res) => {
+        .then(() => {
             this.retrieveUser();
         })
         .catch((err) => {
@@ -84,15 +79,12 @@ class EraList extends React.Component {
         });
     }
     
-
     render() {
         const {chooseSong, seventyList, eightyList, ninetyList} = this.props;
         const {currentUser, stringList} = this.state;
         const {era} = this.props.match.params;
         if(currentUser === undefined && stringList === undefined){
-            return (
-              <div><h1>Loading...</h1></div>
-            )
+            return <div><h1>Loading...</h1></div>
         }
         let bgUrl;
         let songList;
@@ -108,7 +100,7 @@ class EraList extends React.Component {
         }
         return( 
             <div className={`container mt-2 text-left ${bgUrl}`}>
-                <h1>The {era}'s</h1>
+                <div className="era-title"><h1 className="text-white bg-dark">The {era}'s</h1></div>
                 <div className="list-container">                
                     {
                         songList.map((song) => {

@@ -7,7 +7,6 @@ import TaxesFees from './components/TaxesFees/TaxesFees';
 import EstimatedTotal from './components/EstimatedTotal/EstimatedTotal';
 import ItemDetails from './components/ItemDetails/ItemDetails';
 import PromoCodeDiscount from './components/PromoCode/PromoCode';
-
 import {connect} from 'react-redux';
 import {handleChange} from './actions/promoCodeActions';
 

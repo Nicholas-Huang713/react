@@ -25,7 +25,7 @@ class DashBoard extends React.Component {
         })
         .then((res) => {
             const allUsers = res.data;
-            this.setState({allUsers})
+            this.setState({allUsers});
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -47,7 +47,6 @@ class DashBoard extends React.Component {
         .catch((err) => {
             console.log('Error:' + err);
         });
-        
     }
 
     randomBackground() {
@@ -91,33 +90,8 @@ class DashBoard extends React.Component {
             headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-            this.setState({
-                currentUser: res.data
-            })
+            this.setState({currentUser: res.data});
             this.refreshFaveList();
-        })
-        .catch((err) => {
-            console.log('Error:' + err);
-        });
-    }
-    
-    choosePlaylist = (id) => {
-        this.props.history.push(`/dashboard/${id}`);
-    }
-
-    chooseTheme = (event) => {
-        event.preventDefault();
-        const jwt = getJwt();
-        const {bgUrl} = this.state;
-        console.log("state bgUrl: " + bgUrl);
-        axios({
-            url: `/api/theme/${bgUrl}`,
-            method: 'PUT',
-            headers: {'Authorization' : `Bearer ${jwt}`}
-        })
-        .then((res) => {
-            const user = res.data;
-            console.log("updated User: " + user);            
         })
         .catch((err) => {
             console.log('Error:' + err);
@@ -144,26 +118,20 @@ class DashBoard extends React.Component {
             <div className={`${bgUrl} mt-2`}>
                 <div className="border-dark border-bottom mt-1 ml-3 ">
                     <div className="row">
-                        <div className="col">
-                            <h2>Welcome {firstName}</h2> 
-                        </div>
-                        <div className="col">
-                        <div className="form-group">
-                            Choose a Theme
-                            <form onSubmit={() => this.chooseTheme}>
+                        <div className="col mt-2"><h2>Welcome {firstName}</h2></div>
+                        <div className="col text-center">
+                            <div className="form-group mt-2 ml-6">
+                                Choose a Theme
+                                <br/>
                                 <select value={this.state.bgUrl} onChange={this.handleChange} className="theme-dropdown">
-                                    <option value="dashboard1">1</option>
-                                    <option value="dashboard2">2</option>
-                                    <option value="dashboard3">3</option>
-                                    <option value="dashboard4">4</option>
+                                    <option value="dashboard1">Oceans11</option>
+                                    <option value="dashboard2">OrangeIsTheNewBlack</option>
+                                    <option value="dashboard3">PlatinumRecords</option>
+                                    <option value="dashboard4">HipHopYouDontStop</option>
                                 </select>
-                                <input type="submit" value="Save" />
-                            </form>
+                            </div>
                         </div>
-                        </div>
-                    </div>
-                    
-                    
+                    </div>    
                 </div>
                 <div className="row">                   
                     <div className="col">
@@ -190,10 +158,9 @@ class DashBoard extends React.Component {
                                     }
                                     return (
                                         <div>
-                                            <button className="btn dashboard-song-button" onClick={() => this.choosePlaylist(user._id)}> 
+                                            <button className="btn dashboard-song-button" onClick={() => this.props.history.push(`/dashboard/${user._id}`)}> 
                                                 {user.firstname}'s Playlist                     
                                             </button>   
-                                            
                                         </div>
                                     )
                                 })
@@ -201,8 +168,6 @@ class DashBoard extends React.Component {
                         </div>
                     </div>
                 </div>
-                
-
             </div>
         )
     }

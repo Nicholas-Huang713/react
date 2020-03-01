@@ -22,7 +22,7 @@ export default class PickupSavings extends Component {
         ) 
 
         return(
-            <Row className="show=grid">
+            <Row className="show-grid">
                 <Col md={6}>
                     <OverlayTrigger placement="bottom" overlay={tooltip}>
                         <div style={styles.pickupSavings}>Pickup Savings</div>

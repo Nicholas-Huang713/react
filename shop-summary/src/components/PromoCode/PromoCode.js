@@ -28,7 +28,7 @@ class PromoCodeDiscount extends Component {
                 </Button>
                 <Collapse in={this.state.open}>
                     <div>
-                        <row className="show-grid">
+                        <Row className="show-grid">
                             <Col md={12}>
                                 <Form>
                                     <FormGroup controlId="formInlineName">
@@ -51,7 +51,7 @@ class PromoCodeDiscount extends Component {
                                     </Button>
                                 </Form>
                             </Col>
-                        </row>
+                        </Row>
                     </div>
                 </Collapse>
             </div>

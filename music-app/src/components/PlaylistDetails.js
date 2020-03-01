@@ -10,12 +10,11 @@ class PlaylistDetails extends React.Component {
         this.state = {
             currentUser: undefined,
             faveList: []
-        }
-        
+        } 
     }
     componentDidMount() {
         const jwt = getJwt();
-        const id = this.props.match.params.id;
+        const {id} = this.props.match.params;
         axios({
             url: `/api/playlist/${id}`, 
             method: 'GET',
@@ -23,16 +22,14 @@ class PlaylistDetails extends React.Component {
         })
         .then((res) => {
             const user = res.data;  
-            // this.setState({currentUser: JSON.stringify(user)});
             this.pushToList(user); 
-            console.log("State User: " + this.state.currentUser);
         })
         .catch((err) => {
             console.log('Error:' + err);
         });
     }
    
-    pushToList(user){
+    pushToList = (user) => {
         let list = user[0].favelist;
         let updatedList = [];
         let realList = [];
@@ -84,14 +81,14 @@ class PlaylistDetails extends React.Component {
                                     faveList.map((song) => {
                                         return (
                                             <div className="" key={song.id}>
-                                                    <button className="btn dashboard-song-button" onClick={() => chooseSong(song.id)}> 
-                                                        <div className="media"> 
-                                                            <img src={song.album.cover_small} alt="artist" />
-                                                            <div className="media-body ml-3 mt-3">
-                                                                <b>{song.artist.name}</b> - {song.title} 
-                                                            </div>
-                                                        </div>                                               
-                                                    </button>   
+                                                <button className="btn dashboard-song-button" onClick={() => chooseSong(song.id)}> 
+                                                    <div className="media"> 
+                                                        <img src={song.album.cover_small} alt="artist" />
+                                                        <div className="media-body ml-3 mt-3">
+                                                            <b>{song.artist.name}</b> - {song.title} 
+                                                        </div>
+                                                    </div>                                               
+                                                </button>   
                                             </div>  
                                         )       
                                     })
@@ -101,9 +98,6 @@ class PlaylistDetails extends React.Component {
                      </div>
                      <div className="col"></div>
                  </div>
-                
-                
-                
             </div>
         );
     }

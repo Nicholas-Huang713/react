@@ -1,7 +1,5 @@
 import React from 'react';
 import '../App.css';
-import unliked from './images/unliked.png';
-import liked from './images/liked.png';
 import {getJwt} from '../helpers/jwt';
 import axios from 'axios';
 
@@ -17,8 +15,12 @@ class ListContainer extends React.Component {
     componentDidMount() {
         this.retrieveLists();
     }
+    
     retrieveLists () {
-        this.setState({songList: this.props.songList, stringList: this.props.stringList});
+        this.setState({
+            songList: this.props.songList, 
+            stringList: this.props.stringList
+        });
     }
 
     likeSong = (id) => {

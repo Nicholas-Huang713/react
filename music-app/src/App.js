@@ -25,7 +25,6 @@ class App extends React.Component {
       currentSong: undefined
     }
   }
-  
 
   componentDidMount() {
     const seventyIds = [3824597, 3824607, 131224316, 458844802, 65724608, 409962402];
@@ -35,73 +34,63 @@ class App extends React.Component {
     const eightyList = [];
     const ninetyList = [];
     const randomList = [];
-
     for(const [index, value] of seventyIds.entries()) {
-        axios({
-            "method":"GET",
-            "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${value}`,
-            "headers":{
-            "content-type":"application/octet-stream",
-            "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
-            "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
-            }
-        })
-        .then((response)=>{
-            seventyList.push(response.data);
-            randomList.push(response.data);
-        })
-        .catch((error)=>{
-            console.log(error);
-    })   
-        
+      axios({
+          "method":"GET",
+          "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${value}`,
+          "headers":{
+          "content-type":"application/octet-stream",
+          "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
+          "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
+          }
+      })
+      .then((response)=>{
+          seventyList.push(response.data);
+          randomList.push(response.data);
+      })
+      .catch((error)=>{
+          console.log(error);
+      })    
     }
     for(const [index, value] of eightyIds.entries()) {
-        axios({
-            "method":"GET",
-            "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${value}`,
-            "headers":{
-            "content-type":"application/octet-stream",
-            "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
-            "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
-            }
-            })
-            .then((response)=>{
-              eightyList.push(response.data);
-              randomList.push(response.data);
-            })
-            .catch((error)=>{
-              console.log(error);
-        })   
-        
+      axios({
+          "method":"GET",
+          "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${value}`,
+          "headers":{
+          "content-type":"application/octet-stream",
+          "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
+          "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
+          }
+          })
+          .then((response)=>{
+            eightyList.push(response.data);
+            randomList.push(response.data);
+          })
+          .catch((error)=>{
+            console.log(error);
+      })     
     }
     for(const [index, value] of ninetyIds.entries()) {
-        axios({
-            "method":"GET",
-            "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${value}`,
-            "headers":{
-            "content-type":"application/octet-stream",
-            "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
-            "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
-            }
-            })
-            .then((response)=>{
-              ninetyList.push(response.data);
-              randomList.push(response.data);
-            })
-            .catch((error)=>{
-              console.log(error);
-        })   
-        
+      axios({
+          "method":"GET",
+          "url":`https://deezerdevs-deezer.p.rapidapi.com/track/${value}`,
+          "headers":{
+          "content-type":"application/octet-stream",
+          "x-rapidapi-host":"deezerdevs-deezer.p.rapidapi.com",
+          "x-rapidapi-key":"97b3d67fd7msh8ae0214eedae588p157a2cjsn1de270448a3e"
+          }
+          })
+          .then((response)=>{
+            ninetyList.push(response.data);
+            randomList.push(response.data);
+          })
+          .catch((error)=>{
+            console.log(error);
+      })      
     }
-    this.setState({
-        seventyList,
-        eightyList,
-        ninetyList,
-        randomList
-    })
+    this.setState({ seventyList, eightyList, ninetyList, randomList });
   }
 
-  
   chooseSong = (id) => {
     axios({
         "method":"GET",
@@ -135,19 +124,17 @@ class App extends React.Component {
     this.setState({ currentSong: undefined });
     this.renderPage();
   }
-  
+
   renderPage = () => {
     this.forceUpdate();
   }
 
   render() {
-    const {currentSong, randomList} = this.state;
-
+    const {currentSong} = this.state;
     return (
       <div className="App"> 
         <div className="container">
-          <Router>
-            
+          <Router> 
             <div className="page_header border-dark border-bottom">
                 <div className="header_item">
                   <Link to="/"><img src={logo} className="logo" alt="logo"/></Link>
@@ -157,7 +144,6 @@ class App extends React.Component {
                   <p>Listen to the evolution of Hip Hop's sound.</p>
                 </div>
             </div>
-            
             <NavBar handleDiscover={this.handleDiscover} resetState={this.resetState}/>
             <Switch>
               <Route exact path="/" component={Home} />
@@ -173,7 +159,6 @@ class App extends React.Component {
               </PrivateRoute>
             </Switch>
         </Router>
-
         </div> 
         {
           (currentSong && localStorage.getItem("token")) ?
@@ -181,11 +166,8 @@ class App extends React.Component {
           :
            <span></span>   
         }
-        
       </div>
     );
   }
-  
 }
-
 export default App;

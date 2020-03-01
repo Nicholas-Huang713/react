@@ -1,14 +1,12 @@
 import React from 'react';
 import '../App.css';
 import axios from 'axios';
-
 import {withRouter} from 'react-router-dom';
-
 
 class Registration extends React.Component {
     constructor(props){
         super(props);
-        this.state ={
+        this.state = {
             firstName: "",
             lastName: "",
             email: "",
@@ -16,14 +14,12 @@ class Registration extends React.Component {
             errorMsg: "",
             userList: []
         }
-        
     }
+
     handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        this.setState({ 
-            [name] : value 
-        })
+        this.setState({ [name] : value });
     }
 
     handleRegister = (event) => {
@@ -35,19 +31,16 @@ class Registration extends React.Component {
             email: email,
             password: password
         }
-        
         axios({
             url: '/api/register',
             method: 'POST',
             data: newUser        
         })
         .then((res) => {
-            console.log('New user registered', newUser);
             const token = res.data;
             localStorage.setItem('token', token);
             this.props.history.push('/dashboard');
             this.props.renderPage();  
-            
         })
         .catch((err) => {
             this.setState({
@@ -55,8 +48,6 @@ class Registration extends React.Component {
             })
             console.log('Error:' + err.response.data);
         });
-        
-        
     }
 
     componentWillUnmount() {
@@ -69,12 +60,10 @@ class Registration extends React.Component {
         })
     }
 
-
     render() {
         const {errorMsg} = this.state;
         return (
             <div className="container regform-container mt-3">
-                
                 <div className="regform-style">
                     <h3 className="text-center">Create Your Account</h3>
                     <p className="text-danger text-center text-uppercase font-italic">{errorMsg}</p>
